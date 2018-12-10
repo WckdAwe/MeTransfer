@@ -1,0 +1,12 @@
+body{
+    background-image: linear-gradient(to left, blue, cyan);
+}
+
+.logo{
+    margin-left: 15px;
+    color: purple;
+    border-style: ridge;
+    border-width: thin;
+    border-radius: 5px;
+    border-color: purple;
+}
