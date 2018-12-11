@@ -1,0 +1,18 @@
+body {
+  background-color: powderblue;
+}
+
+.login_class{
+  background: white;
+  padding: 50px;
+  width: 350px;
+  margin: auto;
+  margin-top: 50px;
+  height: 300px;
+  text-align: center;
+}
+
+input{
+
+  text-align: center;
+}
