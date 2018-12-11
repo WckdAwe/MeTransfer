@@ -1,0 +1,26 @@
+.grad{
+    background-image: linear-gradient(to left, blue, cyan);
+}
+
+.logo{
+    color: purple;
+    border-left: 6px solid purple;
+    border-radius: 5px;
+    margin-left: 10px;
+    text-indent: 5px;
+}
+
+.logo_text{
+    font-size: 180%;
+}
+
+.transfer_window{
+    box-sizing: content-box;
+    width: 325px;
+    height: 425px;
+    margin: auto;
+    border: solid white;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+}
