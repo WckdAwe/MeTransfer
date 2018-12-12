@@ -24,3 +24,14 @@
     border-radius: 10px;
     text-align: center;
 }
+
+.transfer_icon{
+    margin-left: 35%;
+    margin-right: 35%;
+    text-align: center;
+    padding-left: 2px;
+    padding-right: 3px;
+    border-left: solid purple;
+    border-right: solid purple;
+    border-radius: 2px;
+}
