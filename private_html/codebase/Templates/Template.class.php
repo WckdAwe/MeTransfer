@@ -119,7 +119,7 @@ class Template {
       public function setRequireLogin($Boolean){
       if(is_bool($Boolean)){
       $this->requireLogin = $Boolean;
-      if($Boolean == true && !\codebase\Authentication\Account::isLoggedIn()){
+      if($Boolean == true && !\codebase\Authentication\Account.class::isLoggedIn()){
       header('Location: /account/login');
       die();
       }

@@ -9,7 +9,10 @@ my_site/*
 composer.phar
 /vendor/
 ################
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 
 # Created by https://www.gitignore.io/api/phpstorm+all,jetbrains+all
 # Edit at https://www.gitignore.io/?templates=phpstorm+all,jetbrains+all
