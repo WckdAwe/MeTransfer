@@ -10,9 +10,10 @@ body {
   margin-top: 50px;
   height: 300px;
   text-align: center;
+  border: solid black;
 }
 
-input{
-
-  text-align: center;
+#login_button{
+  margin: 10px;
+  width: 60px;
 }
