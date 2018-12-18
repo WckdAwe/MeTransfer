@@ -5,6 +5,11 @@ my_site/*
 
 ### END CUSTOM ###
 
+### Composer ###
+composer.phar
+/vendor/
+################
+
 
 # Created by https://www.gitignore.io/api/phpstorm+all,jetbrains+all
 # Edit at https://www.gitignore.io/?templates=phpstorm+all,jetbrains+all
