@@ -20,9 +20,9 @@
       <br>
       <input type="button" value="login" id="login_button">
       <br>
-      if you don't have an account click here: <a href="register.php">register </href>
+      if you don't have an account click here: <a href="register.php">register </a>
       <br>
-      <a href="any_name.php">forgot your password?</href>
+      <a href="any_name.php">forgot your password?</a>
     </form>
   </div>
 </body>

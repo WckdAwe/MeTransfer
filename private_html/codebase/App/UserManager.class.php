@@ -22,7 +22,7 @@ class User {
 }
 
 class UserDetails {
-    public $fname, $lname;
+    public $first_name, $last_name;
     public $gender;
     public $birthday;
 }

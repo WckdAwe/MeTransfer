@@ -16,11 +16,11 @@ environments:
 
     development:
         adapter: mysql
-        host: localhost
-        name: development_db
+        host: 127.0.0.1
+        name: metransfer
         user: root
         pass: ''
-        port: 3306
+        port: 3306  
         charset: utf8
 
     testing:

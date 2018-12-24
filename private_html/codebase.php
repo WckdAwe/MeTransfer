@@ -3,6 +3,7 @@ namespace main;
 
 if (!session_id()) {
     session_start();
+    echo 'SESSION STARTED';
 }
 
 
