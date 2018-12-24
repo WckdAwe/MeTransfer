@@ -103,7 +103,7 @@ class Account
                 $password = password_hash($password, PASSWORD_BCRYPT);
                 $STMT = $PDO->prepare('INSERT INTO users values(DEFAULT, :username, :email, :password, DEFAULT)');
                 $STMT->bindParam(':username', $username, \PDO::PARAM_STR);
-                $STMT->bindParam(':email', $emaiwl, \PDO::PARAM_STR);
+                $STMT->bindParam(':email', $email, \PDO::PARAM_STR);
                 $STMT->bindParam(':password', $password, \PDO::PARAM_STR);
                 $STMT->execute();
 
