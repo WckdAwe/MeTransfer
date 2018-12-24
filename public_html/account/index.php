@@ -1,3 +1,16 @@
+<?php
+require_once('../../private_html/codebase.php');
+use \codebase\App\Account;
+use \codebase\Templates\TemplateManager;
+
+
+$template = TemplateManager::getTemplate();
+$template->setPageTitle('Login');
+$template->setLoginRequired(true);
+?>
+
+
+
 <DOCTYPE html>
 <html>
 <head>
@@ -8,7 +21,7 @@
     <div>
         <?php
             $username = $_SESSION['username'];
-            echo '<h2> Hello'.$username.',</h2>';  
+            echo '<h2> Hello '.$username.',</h2>';
         ?>
         <br>
         <br>
