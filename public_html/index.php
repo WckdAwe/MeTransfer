@@ -1,30 +1,48 @@
 <?php
-require_once('../private_html/codebase.php');
-print_r(__DBCONF);
-use \codebase\App\Account;
-use \codebase\Templates;
-//$template = \codebase\Templates\TemplateManager::getTemplate();?>
-<!---->
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!---->
-<!--    <head>-->
-<!--        --><?php //echo $template->getHead(); ?>
-<!--    </head>-->
-<!---->
-<!--    <body>-->
-<!--        --><?php //echo $template->getNavigation() ?>
-<!---->
-<!--        --><?php //echo $template->getFooter(); ?>
-<!--    </body>-->
-<!--</html>-->
-
-<?php
-Account::getInstance()->trySignup('panaiwtis1', '123456', 'panaiwtis@melisoulas.gr', 1);
-Account::getInstance()->tryLogin('panaiwtis1', '123456');
-if(Account::isLoggedIn()){
-    echo "User is logged in\n";
-    echo $_SESSION['username'];
-}
-
+    include 'index_funcs.php';
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> MeTransfer </title>
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+</head>
+<body class="grad">
+    <div class="logo">
+        <p class="logo_text"> MeTransfer </p>
+    </div>
+    <div class="login_subscribe_button">
+        <a href="/account/login.php"> LOGIN </a> <br>
+        <a href="/account/register.php"> REGISTER </a>
+    </div><br>
+    <div class="transfer_window">
+        <p class="transfer_icon"> <b> Send Files </b></p> <br>
+        <form class="" action="index.php" method="POST">
+            <input type="email" name="receiver" value="Email to">
+            <input type="email" name="sender" value="Your email">
+            <textarea name="message" rows="auto" cols="auto"> Message </textarea> <br>
+            <label> Send as:
+                <input type="radio" checked="checked" name="radio">
+            </label> Email
+            <label>
+                <input type="radio" name="radio">
+            </label> Link <br><br>
+            <label> Delete after:
+                <select>
+                    <option value="1w"> 1 week </option>
+                    <option value="2w"> 2 weeks </option>
+                    <option value="3w"> 3 weeks </option>
+                    <option value="1m"> 1 month </option>
+                </select>
+            </label> <br><br>
+            <input type="submit" name="submit" value="Transfer">
+
+
+            <!-- placeholder "set password" <br>
+            TO DO LATER: dropdown menu "advanced options": "del after", "shorten url", "protect with pass". -->
+        </form>
+    </div>
+</body>
+</html>

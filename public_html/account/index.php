@@ -6,8 +6,10 @@
 </head>
 <body>
     <div>
-		<!--TODO: Add users username here-->
-        <h2>hello USER</h2> 
+        <?php
+            $username = $_SESSION['username'];
+            echo '<h2> Hello'.$username.',</h2>';  
+        ?>
         <br>
         <br>
         <input type="Button" value="Upload file" name="upload_button" class="button_style">
