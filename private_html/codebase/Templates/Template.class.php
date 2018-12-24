@@ -2,7 +2,7 @@
 
 namespace codebase\Templates;
 
-use codebase\App\Account;
+use codebase\App\Users\Account;
 use codebase\Helper;
 
 class Template {

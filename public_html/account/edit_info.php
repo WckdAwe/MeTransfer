@@ -1,11 +1,18 @@
-<DOCTYPE html>
+<?php
+require_once('../../private_html/codebase.php');
+use \codebase\Templates\TemplateManager;
+
+
+$template = TemplateManager::getTemplate();
+$template->setPageTitle('Edit profile info');
+$template->setLoginRequired(true);
+$template->addCSS('\assets\css\profile_style.css', true);
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 <?php echo $template->getHead(); ?>
 <body>
-    <?php
-        $username = $_SESSION['username'];
-        $password = $_SESSION['password'];
-    ?>
     <div class='edit_username'>
         name : 
         <input type='button' name='edit_name_button' value='edit'>

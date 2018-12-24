@@ -1,10 +1,10 @@
 <?php
 require_once('../../private_html/codebase.php');
-use \codebase\App\Account;
+use \codebase\App\Users\Account;
 use \codebase\Templates\TemplateManager;
 
 
-$template = TemplateManager::getTemplate();
+$template = TemplateManager::getTemplate(TemplateManager::TMPL_LOGIN_REGISTER);
 $template->setPageTitle('Login');
 $template->setGuestRequired(true);
 if(isset($_POST['submit']))
@@ -34,11 +34,11 @@ if(isset($_POST['submit']))
                 Password:<br>
                 <input type="password" name="password" required>
                 <br>
-                <input type="submit" name="submit" value="login" id="login_button">
+                <input type="submit" name="submit" value="Login">
                 <br>
-                if you don't have an account click here: <a href="register.php">register </a>
+                If you don't have an account click here: <a href="../register">Register</a>
                 <br>
-                <a href="../any_name.php">forgot your password?</a>
+                <a href="../password_reset">Forgot your password?</a>
             </form>
         </div>
     </body>

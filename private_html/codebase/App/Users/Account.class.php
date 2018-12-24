@@ -1,7 +1,9 @@
 <?php
 
-namespace codebase\App;
+namespace codebase\App\Users;
 
+use codebase\App\ErrorManager;
+use codebase\App\Language;
 use codebase\Helper;
 
 class Account
@@ -18,7 +20,7 @@ class Account
     }
 
     public function tryLogin($username, $password){
-        if(self::isLoggedIn()) return false; // User is already logged in
+        if(self::isLoggedIn()) return false; // User.class is already logged in
 
         if(strlen($username) < 5 || strlen($username) > 32) // TODO: Login with email too!
             ErrorManager::addError(Language::ERR_USERNAME);
@@ -46,16 +48,12 @@ class Account
         return false;
     }
 
-    public function trySignup($username, $password, $email, $terms, $birthday = null, $gender = null){
+    public function trySignup($username, $email, $password, $password_check, $terms, $birthday = null, $gender = null){
         if(self::isLoggedIn()) return false;
         //if(!isset($_POST['submit'])) return false; // TODO: Maybe Redirect?
 
-//        $username = Helper::get_string($_POST, 'username', null);
-//        $password = Helper::get_string($_POST, 'password', null);
-//        $email = Helper::get_string($_POST, 'email', null);
 //        $birthday = Helper::get_string($_POST, 'birthday', null); // TODO: Implement birthday check
 //        $gender = Helper::get_string($_POST, 'gender', null); // TODO: Implement gender check
-//        $terms = Helper::get_string($_POST, 'tos', null);
 
         if(!isset($terms))
             ErrorManager::addError(Language::TOS_ACCEPT);
@@ -65,6 +63,9 @@ class Account
 
         if(strlen($password) < 5 || strlen($password) > 32)
             ErrorManager::addError(Language::ERR_PASSWORD);
+
+        if($password != $password_check)
+            ErrorManager::addError(Language::ERR_PASSWORD_CHECK);
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
             ErrorManager::addError(Language::ERR_EMAIL);
@@ -99,10 +100,20 @@ class Account
         }
     }
 
+    public static function user(){
+        if(!self::isLoggedIn()) return null;
+
+        $PDO = \codebase\Databases\PHPDataObjects::getInstance();
+        $STMT = $PDO->prepare('SELECT * FROM users WHERE (`username` = :username)');
+        $STMT->bindParam(':username', $_SESSION['username'], \PDO::PARAM_STR);
+        $STMT->execute();
+        $STMT->setFetchMode(\PDO::FETCH_CLASS, __NAMESPACE__ . '\\User');
+        return $STMT->fetch(\PDO::FETCH_CLASS);
+    }
+
     public static function isLoggedIn(){
         return isset($_SESSION['username']);
     }
-
 
     public static function logout(){
         if(self::isLoggedIn()) {

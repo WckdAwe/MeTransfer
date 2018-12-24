@@ -1,7 +1,6 @@
 <?php
 namespace codebase\Databases;
 
-/** TODO: Export CONFIG.class to config.ini |  */
 class PHPDataObjects {
     private static $instance;
     public function __connect(){
