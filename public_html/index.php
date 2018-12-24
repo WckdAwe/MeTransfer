@@ -1,4 +1,6 @@
-
+<?php
+    include 'index_funcs.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +19,7 @@
     </div><br>
     <div class="transfer_window">
         <p class="transfer_icon"> <b> Send Files </b></p> <br>
-        <form class="" action="index.html" method="post">
+        <form class="" action="" method="POST">
             <input type="email" name="receiver" value="Email to">
             <input type="email" name="sender" value="Your email">
             <textarea name="message" rows="auto" cols="auto"> Message </textarea> <br>
