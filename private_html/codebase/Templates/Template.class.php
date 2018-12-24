@@ -14,11 +14,14 @@ class Template {
     protected $PAGE_CSS = [];
     protected $PAGE_JS = [];
     protected $login_required = false;
-    protected $nologin_required = false;
+    protected $guest_required = false;
 
     public function __construct() {
         $this->setPageName(__ENV['website_name']);
         $this->setPageDescription(__ENV['website_desc']);
+
+        $this->checkLoginRequired();
+        $this->checkGuestRequired();
     }
 
     public function setPageName($PAGE_NAME) {
@@ -128,6 +131,24 @@ class Template {
 
     public function setLoginRequired($login_required){
         $this->login_required = $login_required;
+        $this->checkLoginRequired();
+    }
+
+    public function setGuestRequired($guest_required){
+        $this->guest_required = $guest_required;
+        $this->checkGuestRequired();
+    }
+
+    public function checkLoginRequired(){
+        if($this->login_required && !Account::isLoggedIn()){
+            Helper::redirect('/account/login');
+        }
+    }
+
+    public function checkGuestRequired(){
+        if($this->guest_required && Account::isLoggedIn()){
+            Helper::redirect('/account/');
+        }
     }
 
     protected function isCurPageURL($page) {

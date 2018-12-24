@@ -4,34 +4,34 @@ namespace codebase\App;
 
 class ErrorManager
 {
-    protected $errors = [];
+    protected static $errors = [];
 
-    public function getErrors()
+    public static function getErrors()
     {
-        return $this->errors;
+        return self::$errors;
     }
 
-    public function printErrors()
+    public static function printErrors()
     {
         $result = '';
-        foreach ($this->getErrors() as $error) {
+        foreach (self::getErrors() as $error) {
             $result = '<li>' . htmlentities($error) . '</li>';
         }
         return $result;
     }
 
-    public function addError(string $error, $param = null)
+    public static function addError(string $error, $param = null)
     {
         // TODO: Setup parameters
-        array_push($this->getErrors(), $error);
+        array_push(self::$errors, $error);
     }
 
-    public function hasErrors(){
-        return !empty($this->getErrors());
+    public static function hasErrors(){
+        return !empty(self::getErrors());
     }
 
-    public function cleanErrors(){
-        empty($this->getErrors());
-        $this->errors = [];
+    public static function cleanErrors(){
+        empty(self::getErrors());
+        self::$errors = [];
     }
 }

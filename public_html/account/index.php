@@ -12,7 +12,7 @@
         <br>
         <input type="Button" value="Upload file" name="upload_button" class="button_style">
         <input type="Button" value="Profile settings" name="settings_button" class="button_style">
-        <input type="Button" value="logout" name="logout_button" class="button_style">
+        <input type="Button" value="logout" name="logout_button" class="button_style" onclick="document.location.href = '/account/logout'">
     </div>
 </body>
 </html>

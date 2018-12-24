@@ -7,12 +7,7 @@ use codebase\Helper;
 class Account
 {
     private static $instance;
-    private $errorManager;
 
-    private function __construct()
-    {
-        $this->errorManager = new ErrorManager();
-    }
 
     public static function getInstance()
     {
@@ -25,15 +20,10 @@ class Account
     public function tryLogin($username, $password){
         if(self::isLoggedIn()) return false; // User is already logged in
 
-        $errors = array();
-
         if(strlen($username) < 5 || strlen($username) > 32) // TODO: Login with email too!
-            $this->errorManager->addError(Language::ERR_USERNAME);
+            ErrorManager::addError(Language::ERR_USERNAME);
 
-        if(!empty($errors)){
-            // TODO: Redirect to login form with errors!
-            return false;
-        }else {
+        if(!ErrorManager::hasErrors()){
             $PDO = \codebase\Databases\PHPDataObjects::getInstance();
 
             $STMT = $PDO->prepare('SELECT `username`, `password` FROM users WHERE (`username` = :username)');
@@ -47,13 +37,13 @@ class Account
                     Helper::redirect('/account');
                     return true;
                 }
-                echo 'BAD PASSWORD\n'; // TODO: Add error here
+                ErrorManager::addError(Language::ERR_PASSWORD_INCORRECT);
                 return false;
             }
-            printf('Login Failure\n'); // TODO: Add error here
-            print_r($result);
+            ErrorManager::addError(Language::ERR_USERNAME_NOT_EXIST);
             return false;
         }
+        return false;
     }
 
     public function trySignup($username, $password, $email, $terms, $birthday = null, $gender = null){
@@ -68,21 +58,18 @@ class Account
 //        $terms = Helper::get_string($_POST, 'tos', null);
 
         if(!isset($terms))
-            $this->errorManager->addError(Language::TOS_ACCEPT);
+            ErrorManager::addError(Language::TOS_ACCEPT);
 
         if(strlen($username) < 5 || strlen($username) > 32)
-            $this->errorManager->addError(Language::ERR_USERNAME);
+            ErrorManager::addError(Language::ERR_USERNAME);
 
         if(strlen($password) < 5 || strlen($password) > 32)
-            $this->errorManager->addError(Language::ERR_PASSWORD);
+            ErrorManager::addError(Language::ERR_PASSWORD);
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-            $this->errorManager->addError(Language::ERR_EMAIL);
+            ErrorManager::addError(Language::ERR_EMAIL);
 
-        if($this->errorManager->hasErrors()){
-            // TODO: Redirect to registration form with errors!
-            return false;
-        }else {
+        if(!ErrorManager::hasErrors()){
             $PDO = \codebase\Databases\PHPDataObjects::getInstance();
             $STMT = $PDO->prepare('SELECT `username`, `email` FROM users WHERE (`username` = :username or `email` = :email)');
             $STMT->bindParam(':username', $username, \PDO::PARAM_STR);
@@ -93,11 +80,10 @@ class Account
                 $result = $STMT->fetch(\PDO::FETCH_ASSOC);
 
                 if($result['username'] == $username)
-                    $this->errorManager->addError(Language::ERR_USERNAME_EXISTS);
+                    ErrorManager::addError(Language::ERR_USERNAME_EXISTS);
                 if($result['email'] == $email)
-                    $this->errorManager->addError(Language::ERR_EMAIL_EXISTS);
+                    ErrorManager::addError(Language::ERR_EMAIL_EXISTS);
 
-                // TODO: Redirect to registration form with errors!
                 return false;
             }else{
                 $password = password_hash($password, PASSWORD_BCRYPT);
@@ -107,7 +93,7 @@ class Account
                 $STMT->bindParam(':password', $password, \PDO::PARAM_STR);
                 $STMT->execute();
 
-                // TODO: Redirect to login page or to account page?
+                Helper::redirect('/account');
                 return true;
             }
         }
@@ -118,11 +104,11 @@ class Account
     }
 
 
-    public function tryLogout(){
+    public static function logout(){
         if(self::isLoggedIn()) {
             session_unset();
             session_destroy();
         }
-        Helper::redirect('/account');
+        Helper::redirect('/');
     }
 }

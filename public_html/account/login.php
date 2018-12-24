@@ -6,13 +6,9 @@ use \codebase\Templates\TemplateManager;
 
 $template = TemplateManager::getTemplate();
 $template->setPageTitle('Login');
-if(isset($_POST['submit'])){
-    if(!Account::getInstance()->tryLogin($_POST['username'], $_POST['password'])){
-        echo 'ERROR ON LOGIN... Will add specific error later...';
-    }
-}
-
-// TODO: Redirect if logged in already!
+$template->setGuestRequired(true);
+if(isset($_POST['submit']))
+    Account::getInstance()->tryLogin($_POST['username'], $_POST['password']);
 ?>
 
 
@@ -25,6 +21,8 @@ if(isset($_POST['submit'])){
     <body>
         <div class="login_class">
             <h2>Login</h2>
+
+            <?php echo \codebase\App\ErrorManager::printErrors(); ?>
             <br>
             Please fill your credentials to login.
             <br>

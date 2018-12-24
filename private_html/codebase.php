@@ -2,6 +2,7 @@
 namespace main;
 
 if (!session_id()) {
+    session_save_path('../../sessions');
     session_start();
 }
 
