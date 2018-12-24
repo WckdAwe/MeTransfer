@@ -31,7 +31,15 @@
     text-align: center;
     padding-left: 2px;
     padding-right: 3px;
-    border-left: solid purple;
-    border-right: solid purple;
+    border-left: solid black;
+    border-right: solid black;
     border-radius: 2px;
+}
+
+.login_subscribe_button{
+    color: purple;
+    border-left: 6px solid purple;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding-left: 5px;
 }
