@@ -7,12 +7,20 @@ use \codebase\Templates\TemplateManager;
 $template = TemplateManager::getTemplate();
 $template->setPageTitle('Login');
 if(isset($_POST['submit'])){
+    $_SESSION['name'] = $_POST['username'];
     if(!Account::getInstance()->tryLogin($_POST['username'], $_POST['password'])){
         echo 'ERROR ON LOGIN... Will add specific error later...';
     }
 }
 
 // TODO: Redirect if logged in already!
+if(Account::getInstance()){
+    $_SESSION['name'] = $_POST['username'];
+    header("Refresh:0;url=profile.php");
+}
+
+session_unset();
+session_destroy();
 ?>
 
 
