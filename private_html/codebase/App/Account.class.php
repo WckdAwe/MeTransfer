@@ -2,6 +2,8 @@
 
 namespace codebase\App;
 
+use codebase\Helper;
+
 class Account
 {
     private static $instance;
@@ -30,7 +32,6 @@ class Account
 
         if(!empty($errors)){
             // TODO: Redirect to login form with errors!
-            print_r($errors);
             return false;
         }else {
             $PDO = \codebase\Databases\PHPDataObjects::getInstance();
@@ -42,16 +43,14 @@ class Account
             $result = $STMT->fetch(\PDO::FETCH_ASSOC);
             if(!empty($result)){
                 if(password_verify($password, $result['password'])){
-                    echo 'GOOD PASSWORD\n';
-
                     $_SESSION['username'] = $result['username'];
-                    echo 'LOGIN SUCCESS\n';
+                    Helper::redirect('/account');
                     return true;
                 }
-                echo 'BAD PASSWORD\n';
+                echo 'BAD PASSWORD\n'; // TODO: Add error here
                 return false;
             }
-            printf('Login Failure\n');
+            printf('Login Failure\n'); // TODO: Add error here
             print_r($result);
             return false;
         }
@@ -120,12 +119,10 @@ class Account
 
 
     public function tryLogout(){
-        if(self::isLoggedIn()){
+        if(self::isLoggedIn()) {
             session_unset();
             session_destroy();
-            header("Refresh:3;url=/index.php");
-        }else{
-            header("Refresh:0;url=/index.php");
         }
+        Helper::redirect('/account');
     }
 }

@@ -4,8 +4,14 @@ namespace codebase;
 
 class Helper
 {
-    public static function isset_or_def($variable, $default){
-        return isset($variable) ? $variable : $default;
+//    public static function isset_or_def($variable, $default){
+//        return isset($variable) ? $variable : $default;
+//    }
+
+    public static function redirect($url, $statusCode = 303)
+    {
+        header('Location: ' . $url, true, $statusCode);
+        die();
     }
 
     public static function get_string($array, $index, $default = null) {
