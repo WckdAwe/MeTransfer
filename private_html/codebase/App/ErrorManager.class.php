@@ -17,7 +17,7 @@ class ErrorManager
         foreach (self::getErrors() as $error) {
             $result = '<li>' . htmlentities($error) . '</li>';
         }
-        return $result;
+        return !empty($result) ? '<ul class="error">'.$result.'</ul>' : '';
     }
 
     public static function addError(string $error, $param = null)

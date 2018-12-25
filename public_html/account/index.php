@@ -4,10 +4,9 @@ use \codebase\App\Users\Account;
 use \codebase\Templates\TemplateManager;
 
 
-$template = TemplateManager::getTemplate();
+$template = TemplateManager::getTemplate(TemplateManager::TMPL_ACCOUNT);
 $template->setPageTitle('My Account');
 $template->setLoginRequired(true);
-$template->addCSS('\assets\css\profile_style.css', true);
 ?>
 
 
@@ -15,11 +14,13 @@ $template->addCSS('\assets\css\profile_style.css', true);
 <html lang="en">
     <?php echo $template->getHead(); ?>
     <body>
-        <div>
-            <h2>Hello <?php echo Account::user()->username; ?></h2>
-            <input type="button" value="Upload file" class="button_style">
-            <input type="button" value="Profile settings" class="button_style">
-            <input type="button" value="logout" class="button_style" onclick="document.location.href = '/account/logout'">
+        <div class="flex_box">
+            <div class="center_box">
+                <h2>Hello <?php echo Account::user()->getUsername(); ?></h2>
+                <input type="button" value="Upload file">
+                <input type="button" value="Profile settings" onclick="document.location.href = '/account/edit'">
+                <input type="button" value="logout" onclick="document.location.href = '/account/logout'">
+            </div>
         </div>
     </body>
 </html>

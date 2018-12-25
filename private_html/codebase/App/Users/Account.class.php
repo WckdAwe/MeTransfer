@@ -115,11 +115,11 @@ class Account
         return isset($_SESSION['username']);
     }
 
-    public static function logout(){
+    public static function logout($redirect_url = '/'){
         if(self::isLoggedIn()) {
             session_unset();
             session_destroy();
         }
-        Helper::redirect('/');
+        Helper::redirect($redirect_url);
     }
 }

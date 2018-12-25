@@ -14,12 +14,12 @@
         <p class="logo_text"> MeTransfer </p>
     </div>
     <div class="login_subscribe_button">
-        <a href="/account/login.php"> LOGIN </a> <br>
-        <a href="/account/register.php"> REGISTER </a>
+        <a href="/account/login"> LOGIN </a> <br>
+        <a href="/account/register"> REGISTER </a>
     </div><br>
     <div class="transfer_window">
         <p class="transfer_icon"> <b> Send Files </b></p> <br>
-        <form class="" action="index.php" method="POST">
+        <form class="" action="" method="POST">
             <input type="email" name="receiver" value="Email to">
             <input type="email" name="sender" value="Your email">
             <textarea name="message" rows="auto" cols="auto"> Message </textarea> <br>

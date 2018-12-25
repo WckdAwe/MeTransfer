@@ -4,7 +4,7 @@ use \codebase\App\Users\Account;
 use \codebase\Templates\TemplateManager;
 
 
-$template = TemplateManager::getTemplate(TemplateManager::TMPL_LOGIN_REGISTER);
+$template = TemplateManager::getTemplate(TemplateManager::TMPL_ACCOUNT);
 $template->setPageTitle('Register');
 $template->setGuestRequired(true);
 if(isset($_POST['submit'])) {
@@ -23,36 +23,41 @@ if(isset($_POST['submit'])) {
 <?php echo $template->getHead(); ?>
 
 <body>
-<div class="login_class">
-    <h2>Register</h2>
+    <div class="flex_box">
+        <div class="center_box">
+            <h2>Register</h2>
 
-    <?php echo \codebase\App\ErrorManager::printErrors(); ?>
-    <br>
-    Please fill in the required details to register for an account.
-    <br>
-    <br>
-    <form action="" method="POST">
-        Username:<br>
-        <input type="text" name="username" value="<?php if(isset($_POST['username'])) echo $_POST['username']; ?>" required>
-        <br>
-        Email:<br>
-        <input type="email" name="email" value="<?php if(isset($_POST['email'])) echo $_POST['email']; ?>" required>
-        <br>
-        Password:<br>
-        <input type="password" name="password" required>
-        <br>
-        Re-type your password:<br>
-        <input type="password" name="password_check" required>
-        <br>
+            <?php echo \codebase\App\ErrorManager::printErrors(); ?>
+            <p>Please fill in the required details to register for an account.</p>
+            <form action="" method="POST">
+                <div>
+                    <div>Username:</div>
+                    <input type="text" name="username" value="<?php if(isset($_POST['username'])) echo $_POST['username']; ?>" required>
+                </div>
+                <div>
+                    <div>Email:</div>
+                    <input type="email" name="email" value="<?php if(isset($_POST['email'])) echo $_POST['email']; ?>" required>
+                </div>
+                <div>
+                    <div>Password:</div>
+                    <input type="password" name="password" required>
+                </div>
+                <div>
+                    <div>Retype your password:</div>
+                    <input type="password" name="password_check" required>
+                </div>
+                <div>
+                    <p>Do you by any chance agree with the TOS?</p>
+                    <input type="checkbox" name="tos">
+                    Yes mom. I agree. Can we finish now?
+                </div>
+                <div>
+                    <input type="submit" name="submit" value="Register">
+                </div>
 
-        Do you by any chance agree with the TOS?<br>
-        <input type="checkbox" name="tos">
-        <br>
-
-        <input type="submit" name="submit" value="Register">
-        <br>
-        Already have an account? Click here: <a href="../login">Login</a>
-    </form>
-</div>
+                <p>Already have an account? Click here: <a href="login">Login</a></p>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
