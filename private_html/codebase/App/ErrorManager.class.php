@@ -15,14 +15,15 @@ class ErrorManager
     {
         $result = '';
         foreach (self::getErrors() as $error) {
-            $result = '<li>' . htmlentities($error) . '</li>';
+            $result .= '<li>' . htmlentities($error) . '</li>';
         }
         return !empty($result) ? '<ul class="error">'.$result.'</ul>' : '';
     }
 
-    public static function addError(string $error, $param = null)
+    public static function addError(string $error)
     {
         // TODO: Setup parameters
+        $error = ucfirst(call_user_func_array("sprintf", func_get_args()));
         array_push(self::$errors, $error);
     }
 

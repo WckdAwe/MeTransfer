@@ -14,6 +14,11 @@ class Helper
         die();
     }
 
+    public static function HTMLSelected($val1, $val2)
+    {
+        return $val1 == $val2 ? 'selected="selected"' : '';
+    }
+
     public static function get_string($array, $index, $default = null) {
         if (isset($array[$index]) && strlen($value = trim($array[$index])) > 0) {
             return get_magic_quotes_gpc() ? stripslashes($value) : $value;

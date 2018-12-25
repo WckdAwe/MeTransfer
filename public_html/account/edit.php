@@ -3,17 +3,25 @@ require_once('../../private_html/codebase.php');
 use \codebase\Templates\TemplateManager;
 use \codebase\App\Users\Account;
 use \codebase\App\ErrorManager;
+use \codebase\Helper;
 
 $template = TemplateManager::getTemplate(TemplateManager::TMPL_ACCOUNT);
 $template->setPageTitle('Edit profile info');
 $template->setLoginRequired(true);
 
 $user = Account::user();
-
+$user_info = $user->info();
 if(isset($_POST['pass_edit'])){
     if($user->changePassword($_POST['password_verification'], $_POST['password'], $_POST['password_check'])){
         Account::logout('/account');
     }
+}else if(isset($_POST['prof_edit'])){
+    $user->updateInfo($_POST['password_verification'], $_POST['email'], $_POST['first_name'],
+                      $_POST['last_name'], $_POST['gender'], $_POST['birthday']);
+
+    // Fetch Updated info. || TODO: Find a better way for this.
+    $user = Account::user();
+    $user_info = $user->info();
 }
 ?>
 
@@ -41,15 +49,23 @@ if(isset($_POST['pass_edit'])){
                     </div>
                     <div>
                         First Name:
-                        <input type="text" name="first_name" value="" placeholder="John">
+                        <input type="text" name="first_name" value="<?php echo $user_info->getFirstName(); ?>" placeholder="John">
                     </div>
                     <div>
                         Last Name:
-                        <input type="text" name="last_name" value="" placeholder="Doe">
+                        <input type="text" name="last_name" value="<?php echo $user_info->getLastName(); ?>" placeholder="Doe">
+                    </div>
+                    <div>
+                        Gender:
+                        <select name="gender">
+                            <option value="0" <?php echo Helper::HTMLSelected($user_info->getGender(), 0); ?>>Prefer not to say</option>
+                            <option value="1" <?php echo Helper::HTMLSelected($user_info->getGender(), 1); ?>>Male</option>
+                            <option value="2" <?php echo Helper::HTMLSelected($user_info->getGender(), 2); ?>>Female</option>
+                        </select>
                     </div>
                     <div>
                         Birthday:
-                        <input type="date" name="birthday" value="" placeholder="Doe">
+                        <input type="date" name="birthday" value="<?php echo date('Y-m-d', strtotime($user_info->getBirthday())); ?>">
                     </div>
                     <div>
                         Confirm with password:

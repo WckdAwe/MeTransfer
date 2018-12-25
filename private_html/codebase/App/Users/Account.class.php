@@ -39,36 +39,32 @@ class Account
                     Helper::redirect('/account');
                     return true;
                 }
-                ErrorManager::addError(Language::ERR_PASSWORD_INCORRECT);
+                ErrorManager::addError(Language::ERR_INCORRECT, 'password');
                 return false;
             }
-            ErrorManager::addError(Language::ERR_USERNAME_NOT_EXIST);
+            ErrorManager::addError(Language::ERR_DB_ITEM_NO_EXIST, 'username');
             return false;
         }
         return false;
     }
 
-    public function trySignup($username, $email, $password, $password_check, $terms, $birthday = null, $gender = null){
+    public function trySignup($username, $email, $password, $password_check, $terms){
         if(self::isLoggedIn()) return false;
-        //if(!isset($_POST['submit'])) return false; // TODO: Maybe Redirect?
-
-//        $birthday = Helper::get_string($_POST, 'birthday', null); // TODO: Implement birthday check
-//        $gender = Helper::get_string($_POST, 'gender', null); // TODO: Implement gender check
 
         if(!isset($terms))
             ErrorManager::addError(Language::TOS_ACCEPT);
 
         if(strlen($username) < 5 || strlen($username) > 32)
-            ErrorManager::addError(Language::ERR_USERNAME);
+            ErrorManager::addError(Language::ERR_LENGTH_BETWEEN, 'username', 5, 32);
 
         if(strlen($password) < 5 || strlen($password) > 32)
-            ErrorManager::addError(Language::ERR_PASSWORD);
+            ErrorManager::addError(Language::ERR_LENGTH_BETWEEN, 'password', 5, 32);
 
         if($password != $password_check)
-            ErrorManager::addError(Language::ERR_PASSWORD_CHECK);
+            ErrorManager::addError(Language::ERR_ITEM_NOT_SAME, 'password', 'password check');
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-            ErrorManager::addError(Language::ERR_EMAIL);
+            ErrorManager::addError(Language::ERR_INVALID, 'email');
 
         if(!ErrorManager::hasErrors()){
             $PDO = \codebase\Databases\PHPDataObjects::getInstance();
@@ -81,26 +77,34 @@ class Account
                 $result = $STMT->fetch(\PDO::FETCH_ASSOC);
 
                 if($result['username'] == $username)
-                    ErrorManager::addError(Language::ERR_USERNAME_EXISTS);
+                    ErrorManager::addError(Language::ERR_DB_ITEM_EXIST, 'username');
                 if($result['email'] == $email)
-                    ErrorManager::addError(Language::ERR_EMAIL_EXISTS);
+                    ErrorManager::addError(Language::ERR_DB_ITEM_EXIST, 'email');
 
                 return false;
             }else{
+                $PDO->beginTransaction();
                 $password = password_hash($password, PASSWORD_BCRYPT);
                 $STMT = $PDO->prepare('INSERT INTO users values(DEFAULT, :username, :email, :password, DEFAULT)');
                 $STMT->bindParam(':username', $username, \PDO::PARAM_STR);
                 $STMT->bindParam(':email', $email, \PDO::PARAM_STR);
                 $STMT->bindParam(':password', $password, \PDO::PARAM_STR);
                 $STMT->execute();
+                $user_id = $PDO->lastInsertId();
 
+                $STMT = $PDO->prepare('INSERT INTO user_info (`user_id`) values(:user_id)');
+                $STMT->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
+                $STMT->execute();
+
+                $PDO->commit();
                 Helper::redirect('/account');
                 return true;
             }
         }
     }
 
-    public static function user(){
+    public static function user() : User
+    {
         if(!self::isLoggedIn()) return null;
 
         $PDO = \codebase\Databases\PHPDataObjects::getInstance();
@@ -111,11 +115,13 @@ class Account
         return $STMT->fetch(\PDO::FETCH_CLASS);
     }
 
-    public static function isLoggedIn(){
+    public static function isLoggedIn() : bool
+    {
         return isset($_SESSION['username']);
     }
 
-    public static function logout($redirect_url = '/'){
+    public static function logout($redirect_url = '/') : void
+    {
         if(self::isLoggedIn()) {
             session_unset();
             session_destroy();
