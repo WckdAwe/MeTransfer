@@ -2,6 +2,11 @@
 require_once('../private_html/codebase.php');
 use \codebase\Templates\TemplateManager;
 
+use \codebase\App\FileManager;
+
+if(isset($_POST['upload'])){
+    FileManager::uploadFile($_FILES['file'], $_POST['delete_at']);
+}
 
 //$template = TemplateManager::getTemplate(TemplateManager::TMPL_ACCOUNT);
 //$template->setPageTitle('My Account');
@@ -25,7 +30,7 @@ use \codebase\Templates\TemplateManager;
         </div><br>
         <div class="transfer_window">
             <p class="transfer_icon"> <b> Send Files </b></p> <br>
-            <form class="" action="" method="POST">
+            <form action="" method="POST" enctype="multipart/form-data">
                 <input type="email" name="receiver" value="Email to">
                 <input type="email" name="sender" value="Your email">
                 <textarea name="message" rows="auto" cols="auto"> Message </textarea> <br>
@@ -36,14 +41,16 @@ use \codebase\Templates\TemplateManager;
                     <input type="radio" name="radio">
                 </label> Link <br><br>
                 <label> Delete after:
-                    <select>
-                        <option value="1w"> 1 week </option>
-                        <option value="2w"> 2 weeks </option>
-                        <option value="3w"> 3 weeks </option>
-                        <option value="1m"> 1 month </option>
+                    <select name="delete_at">
+                        <option value="1"> 1 week </option>
+                        <option value="2"> 2 weeks </option>
+                        <option value="3"> 3 weeks </option>
+                        <option value="4"> 1 month </option>
                     </select>
-                </label> <br><br>
-                <input type="submit" name="submit" value="Transfer">
+                </label>
+                <input type="file" name="file" />
+                <br><br>
+                <input type="submit" name="upload" value="Transfer">
 
 
                 <!-- placeholder "set password" <br>
