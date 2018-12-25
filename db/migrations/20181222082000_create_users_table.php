@@ -33,17 +33,17 @@ class CreateUsersTable extends AbstractMigration
      */
     public function up()
     {
-        $table = $this->table('users');
-        if($table->exists()) $table->drop();
-        $table->addColumn('username', 'string', ['limit' => 30])
+        $users_table = $this->table('users');
+        $users_info_table = $this->table('user_info', ['id' => 'user_id']);
+        if($users_info_table->exists()) $users_info_table->drop()->save();
+        if($users_table->exists()) $users_table->drop()->save();
+        $users_table->addColumn('username', 'string', ['limit' => 30])
               ->addColumn('email', 'string', ['limit' => 255])
               ->addColumn('password', 'string', ['limit' => 60])
               ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
               ->save();
 
-        $table = $this->table('user_info', ['id' => 'user_id']);
-        if($table->exists()) $table->drop();
-        $table->addColumn('first_name', 'string', ['limit' => 30])
+        $users_info_table->addColumn('first_name', 'string', ['limit' => 30])
               ->addColumn('last_name', 'string', ['limit' => 255])
               ->addColumn('gender', 'integer', ['limit' => MysqlAdapter::INT_TINY])
               ->addColumn('birthday', 'datetime')
