@@ -19,11 +19,7 @@
     </div><br>
     <div class="transfer_window">
         <p class="transfer_icon"> <b> Send Files </b></p> <br>
-<<<<<<< Updated upstream
         <form class="" action="" method="POST">
-=======
-        <form class="" action="index.php" method="post">
->>>>>>> Stashed changes
             <input type="email" name="receiver" value="Email to">
             <input type="email" name="sender" value="Your email">
             <textarea name="message" rows="auto" cols="auto"> Message </textarea> <br>
