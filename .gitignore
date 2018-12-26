@@ -6,6 +6,8 @@ sessions/*
 uploads/*
 !uploads/\.gitignore
 
+private_html/config.ini
+
 ### END CUSTOM ###
 
 ### Composer ###
@@ -147,5 +149,3 @@ modules.xml
 
 
 # End of https://www.gitignore.io/api/phpstorm+all,jetbrains+all
-
-private_html/config\.ini
