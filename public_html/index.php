@@ -3,23 +3,19 @@ require_once('../private_html/codebase.php');
 use \codebase\Templates\TemplateManager;
 
 use \codebase\App\FileManager;
+use \codebase\App\Users\Account;
 
 if(isset($_POST['upload'])){
     FileManager::uploadFile($_FILES['file'], $_POST['delete_at']);
 }
 
-//$template = TemplateManager::getTemplate(TemplateManager::TMPL_ACCOUNT);
-//$template->setPageTitle('My Account');
-//$template->setLoginRequired(true);
+$template = TemplateManager::getTemplate(TemplateManager::TMPL_METRANSFER);
+$template->setPageTitle('Home');
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title> MeTransfer </title>
-        <link rel="stylesheet" type="text/css" href="assets/css/main.css">
-    </head>
+    <?php echo $template->getHead(); ?>
     <body class="grad">
         <div class="logo">
             <p class="logo_text"> MeTransfer </p>
@@ -31,8 +27,8 @@ if(isset($_POST['upload'])){
         <div class="transfer_window">
             <p class="transfer_icon"> <b> Send Files </b></p> <br>
             <form action="" method="POST" enctype="multipart/form-data">
-                <input type="email" name="receiver" value="Email to">
-                <input type="email" name="sender" value="Your email">
+                <input type="email" name="receiver" placeholder="Email to">
+                <input type="email" name="sender" placeholder="Your email" value="<?php echo Account::isLoggedIn() ? Account::user()->getEmail() : ''; ?>">
                 <textarea name="message" rows="auto" cols="auto"> Message </textarea> <br>
                 <label> Send as:
                     <input type="radio" checked="checked" name="radio">
