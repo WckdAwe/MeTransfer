@@ -96,4 +96,15 @@ class FileManager
         $result = $STMT->fetch(\PDO::FETCH_CLASS);
         return $result ? $result : null;
     }
+
+    public static function getFileByUid($uid) : ?UserFile
+    {
+        $PDO = \codebase\Databases\PHPDataObjects::getInstance();
+        $STMT = $PDO->prepare('SELECT * FROM user_files WHERE (`uid` = :file_uid)');
+        $STMT->bindParam(':file_uid',$uid, \PDO::PARAM_STR);
+        $STMT->execute();
+        $STMT->setFetchMode(\PDO::FETCH_CLASS, __NAMESPACE__ . '\\Users\\UserFile');
+        $result = $STMT->fetch(\PDO::FETCH_CLASS);
+        return $result ? $result : null;
+    }
 }

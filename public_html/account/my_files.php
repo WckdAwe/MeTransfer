@@ -47,12 +47,17 @@ $files = $user->files();
                         <?php
                             foreach ($files as $file){
                                 if($file instanceof UserFile) {
-                                    echo '<th>' . $file->getId() . '</th>' .
+                                    echo '<tr><th>' . $file->getId() . '</th>' .
                                         '<th>' . $file->getFileName() . '</th>' .
                                         '<th>' . ($file->hasExpired() ? 'No' : 'Yes') . '</th>' .
                                         '<th>' . $file->getDeleteAt() . '</th>' .
-                                        '<th>' . $file->getShareType() . '</th>' .
-                                        '<th><a href="'.$file->getUrl().'">GO</a> || <a href="?action=del&id='.$file->getId().'">Delete</a></th>';
+                                        '<th>' . $file->getShareType() . '</th>';
+                                    if($file->hasExpired()){
+                                        echo '<th>¯\_(ツ)_/¯</th>';
+                                    }else{
+                                        echo '<th><a href="'.$file->getUrl().'">GO</a> || <a href="?action=del&id='.$file->getId().'">Delete</a></th>';
+                                    }
+                                    echo '</tr>';
                                 }
                             }
                         ?>

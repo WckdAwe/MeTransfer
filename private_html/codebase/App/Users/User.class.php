@@ -79,7 +79,7 @@ class User
     public function files()
     {
         $PDO = \codebase\Databases\PHPDataObjects::getInstance();
-        $STMT = $PDO->prepare('SELECT * FROM user_files WHERE (`belongs_to` = :user_id)');
+        $STMT = $PDO->prepare('SELECT * FROM user_files WHERE (`belongs_to` = :user_id) ORDER BY `id` DESC');
         $STMT->bindParam(':user_id',$this->id, \PDO::PARAM_INT);
         $STMT->execute();
         $STMT->setFetchMode(\PDO::FETCH_CLASS, __NAMESPACE__ . '\\UserFile');

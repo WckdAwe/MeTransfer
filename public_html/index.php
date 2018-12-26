@@ -25,7 +25,7 @@ if($isLoggedIn) $user = Account::user();
     <?php echo $template->getHead(); ?>
     <body class="grad">
         <div class="logo">
-            <p class="logo_text"> MeTransfer </p>
+            <p class="logo_text"><a href="/"> MeTransfer </a></p>
         </div>
         <div class="login_subscribe_button">
             <?php if(!$isLoggedIn){

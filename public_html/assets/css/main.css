@@ -45,3 +45,24 @@
     padding-left: 5px;
     margin-bottom: 2em;
 }
+
+/* Style buttons */
+.btn {
+    background-color: rgb(22, 106, 190);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+    position: relative;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: rgb(18, 54, 163);
+}
+
+/* Center the button */
+.button_pos {
+    text-align: center;
+}

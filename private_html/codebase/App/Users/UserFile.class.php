@@ -70,6 +70,10 @@ class UserFile {
         return '/dl/'.$this->getUid();
     }
 
+    public function getLocalPath(){
+        return FileManager::UPLOAD_DIR.$this->getUid().'.'.$this->getFileExt();
+    }
+
     public function hasExpired(){
         return strtotime($this->getDeleteAt()) - time() < 0 ? true : false;
     }
@@ -94,7 +98,7 @@ class UserFile {
         $STMT->execute();
         $PDO->commit();
 
-        unlink(FileManager::UPLOAD_DIR.$this->getUid().'.'.$this->getFileExt());
+        unlink($this->getLocalPath());
         Helper::redirect('/account/my_files');
     }
 }

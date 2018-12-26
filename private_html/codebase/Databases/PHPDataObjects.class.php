@@ -17,7 +17,7 @@ class PHPDataObjects {
             return $dbh;
         }catch(\PDOException $e){
             //echo $e->getCode();
-            Helper::errorRedirect(); // TODO: This makes a lot of problems... fix it maybe at the end?
+            Helper::msgRedirect(); // TODO: This makes a lot of problems... fix it maybe at the end?
         }
         return null;
     }

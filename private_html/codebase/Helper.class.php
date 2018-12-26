@@ -4,6 +4,10 @@ namespace codebase;
 
 class Helper
 {
+    const MSG_REDIRECT_DOWNLOAD_SUCCESS = 'download_success';
+    const MSG_REDIRECT_FILE_DOESNT_EXIST = 'file_doesnt_exist';
+    const MSG_REDIRECT_FILE_EXPIRED = 'file_expired';
+
 //    public static function isset_or_def($variable, $default){
 //        return isset($variable) ? $variable : $default;
 //    }
@@ -14,9 +18,10 @@ class Helper
         die();
     }
 
-    public static function errorRedirect($type = null)
+    public static function msgRedirect($type = null)
     {
-        self::redirect('/err');
+        $type = $type ? '?&type='.$type : '';
+        self::redirect('/msg'.$type);
     }
 
     public static function HTMLSelected($val1, $val2)

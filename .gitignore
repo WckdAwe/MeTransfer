@@ -5,7 +5,6 @@ sessions/*
 !sessions/\.gitignore
 uploads/*
 !uploads/\.gitignore
-private_html/config\.ini
 
 ### END CUSTOM ###
 
@@ -148,3 +147,5 @@ modules.xml
 
 
 # End of https://www.gitignore.io/api/phpstorm+all,jetbrains+all
+
+private_html/config\.ini
