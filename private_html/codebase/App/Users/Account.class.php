@@ -103,7 +103,7 @@ class Account
         }
     }
 
-    public static function user() : User
+    public static function user() : ?User
     {
         if(!self::isLoggedIn()) return null;
 

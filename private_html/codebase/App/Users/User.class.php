@@ -65,7 +65,7 @@ class User
         return false;
     }
 
-    public function info() : UserInfo
+    public function info() : ?UserInfo
     {
         $PDO = \codebase\Databases\PHPDataObjects::getInstance();
         $STMT = $PDO->prepare('SELECT * FROM user_info WHERE (`user_id` = :user_id)');
@@ -76,9 +76,18 @@ class User
         return $result ? $result : null;
     }
 
+    public function files()
+    {
+        $PDO = \codebase\Databases\PHPDataObjects::getInstance();
+        $STMT = $PDO->prepare('SELECT * FROM user_files WHERE (`belongs_to` = :user_id)');
+        $STMT->bindParam(':user_id',$this->id, \PDO::PARAM_INT);
+        $STMT->execute();
+        $STMT->setFetchMode(\PDO::FETCH_CLASS, __NAMESPACE__ . '\\UserFile');
+        return $STMT->fetchAll(\PDO::FETCH_CLASS, __NAMESPACE__ . '\\UserFile');
+    }
 
     public function updateInfo($password, $email, $first_name = '', $last_name = '', $gender = '0', $birthday = ''){
-        $info = $this->info();
+        //$info = $this->info();
 
         if(!password_verify($password, $this->getPassword())){
             ErrorManager::addError(Language::ERR_INCORRECT, 'password');
