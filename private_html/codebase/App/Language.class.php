@@ -25,4 +25,6 @@ class Language
     const ERR_FILE_MAX_SIZE = '%$1s exceeds the maximum file-size of %2$s.';
     const ERR_FILE_MOVE = 'Fatal error while moving the file to the TMP directory. '.self::CONTACT_OWNER;
     const ERR_FILE_TYPE = 'Upload failed! Allowed file types: %1$s.';
+    const ERR_LOGIN_REQUIRED_ACTION = 'You must be logged in to perform this action!';
+    const ERR_NO_PERMISSION = 'You do not have permission to %1$s.';
 }

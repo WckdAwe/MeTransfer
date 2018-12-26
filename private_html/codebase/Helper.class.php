@@ -14,6 +14,11 @@ class Helper
         die();
     }
 
+    public static function errorRedirect($type = null)
+    {
+        self::redirect('/err');
+    }
+
     public static function HTMLSelected($val1, $val2)
     {
         return $val1 == $val2 ? 'selected="selected"' : '';

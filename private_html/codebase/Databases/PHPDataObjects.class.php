@@ -1,6 +1,8 @@
 <?php
 namespace codebase\Databases;
 
+use codebase\Helper;
+
 class PHPDataObjects {
     private static $instance;
     public function __connect(){
@@ -13,8 +15,9 @@ class PHPDataObjects {
                             __DBCONF['username'], __DBCONF['password']);
             $dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             return $dbh;
-        }catch(PDOException $e){
-            echo $e->getMessage();
+        }catch(\PDOException $e){
+            //echo $e->getCode();
+            Helper::errorRedirect(); // TODO: This makes a lot of problems... fix it maybe at the end?
         }
         return null;
     }
