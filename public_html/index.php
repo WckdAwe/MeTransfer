@@ -29,12 +29,20 @@ if($isLoggedIn) $user = Account::user();
         </div>
         <div class="login_subscribe_button">
             <?php if(!$isLoggedIn){
-                echo '<a href="/account/login"> LOGIN </a> <br>
-                      <a href="/account/register"> REGISTER </a>';
+                echo '<div>
+                          <a href="/account/login"> LOGIN </a>
+                      </div>
+                      <div>
+                          <a href="/account/register"> REGISTER </a>
+                      </div>';
             }else{
                 echo 'Hello <b>'.$user->getUsername().'</b> <br>';
-                echo '<a href="/account/"> MY PROFILE </a> <br>';
-                echo '<a href="/account/logout"> LOGOUT </a>';
+                echo '<div>
+                          <a href="/account"> MY PROFILE </a>
+                      </div>
+                      <div>
+                          <a href="/account/logout"> LOGOUT </a>
+                      </div>';
             }?>
 
         </div><br>
