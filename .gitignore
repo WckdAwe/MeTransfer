@@ -2,7 +2,9 @@
 
 my_site/*
 sessions/*
+!sessions/\.gitignore
 uploads/*
+!uploads/\.gitignore
 private_html/config\.ini
 
 ### END CUSTOM ###
