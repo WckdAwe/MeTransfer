@@ -6,7 +6,7 @@ sessions/*
 uploads/*
 !uploads/\.gitignore
 
-private_html/config.ini
+private_html/config\.ini
 
 ### END CUSTOM ###
 
