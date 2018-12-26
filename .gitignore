@@ -1,10 +1,9 @@
 ### CUSTOM ###
 
 my_site/*
-private_html/config.ini
 sessions/*
 uploads/*
-
+private_html/config\.ini
 
 ### END CUSTOM ###
 
