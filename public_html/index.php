@@ -21,9 +21,13 @@ $template->setPageTitle('Home');
             <p class="logo_text"> MeTransfer </p>
         </div>
         <div class="login_subscribe_button">
-            <a href="/account/login"> LOGIN </a> <br>
-            <a href="/account/register"> REGISTER </a>
-        </div><br>
+            <div>
+                <a href="/account/login"> LOGIN </a>
+            </div>
+            <div>
+                <a href="/account/register"> REGISTER </a>
+            </div>
+        </div>
         <div class="transfer_window">
             <p class="transfer_icon"> <b> Send Files </b></p> <br>
             <form action="" method="POST" enctype="multipart/form-data">
