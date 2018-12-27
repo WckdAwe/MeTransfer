@@ -101,4 +101,16 @@ class UserFile {
         unlink($this->getLocalPath());
         Helper::redirect('/account/my_files');
     }
+
+    public function getAccessEmails(){
+        $PDO = \codebase\Databases\PHPDataObjects::getInstance();
+        $STMT = $PDO->prepare('SELECT `email` FROM file_auth WHERE (`file_id` = :file_id)');
+        $STMT->bindParam(':file_id',$this->id, \PDO::PARAM_INT);
+        $STMT->execute();
+
+        $db_result = $STMT->fetchAll();
+        $result = [];
+        foreach ($db_result as $db_item) array_push($result, $db_item['email']);
+        return $result;
+    }
 }

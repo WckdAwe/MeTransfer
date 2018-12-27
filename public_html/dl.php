@@ -16,7 +16,10 @@ if($file->hasExpired()){
 
 
 if($file->getShareType() == FileManager::SHARE_TYPE_EMAIL){
-    // TODO: Check if user is in the email list...
+    $access_emails = $file->getAccessEmails();
+    if(!isset($_GET['email']) || !in_array($_GET['email'], $access_emails)){
+        Helper::redirect('/');
+    }
 }
 if(isset($_POST['download'])){
     $filepath = $file->getLocalPath();

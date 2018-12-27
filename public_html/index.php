@@ -7,7 +7,7 @@ use \codebase\App\Users\Account;
 
 if(isset($_POST['upload'])){
     if($_POST['share_type'] == 'email'){
-        $receivers = ['vasil711@hotmail.com','test2@hotmail.com'];
+        $receivers = ['wckdawe@gmail.com','vasil711@hotmail.com', 'MeTransferTK@gmail.com'];
     }else{
         $receivers = [];
     }
@@ -48,6 +48,7 @@ if($isLoggedIn) $user = Account::user();
         </div><br>
         <div class="transfer_window">
             <p class="transfer_icon"> <b> Send Files </b></p> <br>
+            <?php echo \codebase\App\ErrorManager::printErrors(); ?>
             <form action="" method="POST" enctype="multipart/form-data">
                 <input type="email" id="recvEmail" name="receiver" placeholder="Email to">
                 <input type="email" name="sender" placeholder="Your email" value="<?php echo $isLoggedIn ? $user->getEmail() : ''; ?>"> <br><br>
@@ -81,5 +82,6 @@ if($isLoggedIn) $user = Account::user();
             <button onclick=" return multEmail(); ">Enable Multiple Emails</button>
             <p id="mulMsg"></p>
         </div>
+        <script type="text/javascript" src="/assets/js/main.js"></script>
     </body>
 </html>

@@ -9,6 +9,11 @@ define('__EMAILS', __CONFIG['emails']);
 /** PACKAGE MANAGER **/
 define('ROOT', dirname(__DIR__));
 
+if(__ENV['maintenance']){
+    echo 'Website currently under maintenance. Please check back a bit later.';
+    die();
+}
+
 if (!session_id()) {
     session_save_path(ROOT.'/sessions');
     session_start();
