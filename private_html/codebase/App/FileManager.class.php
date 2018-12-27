@@ -6,6 +6,7 @@ namespace codebase\App;
 use codebase\App\Users\Account;
 use codebase\App\Users\UserFile;
 use codebase\Emails\NewTransferEmail;
+use codebase\Emails\NewTransferOwnerEmail;
 use codebase\Helper;
 
 class FileManager
@@ -16,8 +17,30 @@ class FileManager
     const SHARE_TYPE_EMAIL = 0;
     const SHARE_TYPE_LINK = 1;
 
-    public static function uploadFile($uploadedFile, $delete_at = '1', $email_addresses = [], $password = null)
+    public static function uploadFile($uploadedFile, $delete_at = '1', $sender_email, $email_addresses = [], $included_message = null, $password = null)
     {
+        $share_type = empty($email_addresses) ? self::SHARE_TYPE_LINK : self::SHARE_TYPE_EMAIL;
+        if($share_type == self::SHARE_TYPE_EMAIL){
+            $email_addresses = str_replace(' ', '', $email_addresses);
+            if(strpos($email_addresses, ',') !== false){
+                $email_addresses = explode(',', $email_addresses);
+            }else{
+                $email_addresses = [$email_addresses];
+            }
+            foreach ($email_addresses as $email) {
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    ErrorManager::addError(Language::ERR_INVALID, 'A receiver\'s email');
+                    return false;
+                }
+            }
+
+        }
+
+        if (!filter_var($sender_email, FILTER_VALIDATE_EMAIL)) {
+            ErrorManager::addError(Language::ERR_INVALID, 'The sender\'s email');
+            return false;
+        }
+
         if($uploadedFile['error'] != UPLOAD_ERR_OK){
             ErrorManager::addError(Language::ERR_FATAL, $uploadedFile['error']);
             return false;
@@ -37,7 +60,6 @@ class FileManager
 
         $newFileName = Helper::generateUID();
         if($delete_at < 1 || $delete_at > 4 || is_int($delete_at)) $delete_at = 1; // Verify that delete_at is between 1-4 weeks.
-        $share_type = empty($email_addresses) ? self::SHARE_TYPE_LINK : self::SHARE_TYPE_EMAIL;
         $dest_path = self::UPLOAD_DIR . $newFileName.'.'.$fileExtension;
 
         while(file_exists($dest_path)){
@@ -71,29 +93,37 @@ class FileManager
                     $file_id = $PDO->lastInsertId();
 
                     // TODO: Find a better way to do this? maybe? Well we already know one but yeah... testing things out. This is not safe btw... just saying
-                    $query = '';
+                    $query = '(:file_id, :email0),';
                     foreach ($email_addresses as $key => $email)
-                        $query .= '(:file_id, :email'.$key.'),';
+                        $query .= '(:file_id, :email'.($key+1).'),';
 
                     $query = substr($query, 0, -1);
 
                     $STMT = $PDO->prepare('INSERT INTO file_auth (`file_id`, `email`) values '.$query);
                     $STMT->bindParam(':file_id', $file_id, \PDO::PARAM_INT);
+                    $STMT->bindParam(':email0', $sender_email, \PDO::PARAM_STR);
 
+
+                    var_dump($email_addresses);
                     foreach ($email_addresses as $key => $email)
-                        $STMT->bindParam(':email'.$key, $email_addresses[$key], \PDO::PARAM_STR);
+                        $STMT->bindValue(':email' . ($key+1), $email, \PDO::PARAM_STR);
 
                     $STMT->execute();
 
+                    $email = new NewTransferOwnerEmail($fileName, '/dl/' . $newFileName . '/'.$sender_email, $included_message);
+                    $email->setReceivers($sender_email);
+                    // $email->sendEmail(); TODO: Uncomment these when done. This laggs a lot
+
                     foreach ($email_addresses as $email_addr){ // TODO: Yeap... We could also improve that... if it was going to be an actual app.
-                        $email = new NewTransferEmail($fileName, '/dl/' . $newFileName . '/'.$email_addr);
+                        $email = new NewTransferEmail($fileName, '/dl/' . $newFileName . '/'.$email_addr, $included_message);
                         $email->setReceivers($email_addr);
-                        $email->sendEmail();
+                        // $email->sendEmail(); TODO: Uncomment these when done. This laggs a lot
+
                     }
                 }
 
                 $PDO->commit();
-                Helper::redirect('/dl/'.$newFileName);
+                Helper::redirect('/dl/'.$newFileName.'/'.$sender_email);
                 return true;
             }catch(\MailException $e){
                 ErrorManager::addError('Email Exception Test');

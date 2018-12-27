@@ -66,3 +66,7 @@
 .button_pos {
     text-align: center;
 }
+
+ul.error{
+    border: red 2px dashed;
+}
