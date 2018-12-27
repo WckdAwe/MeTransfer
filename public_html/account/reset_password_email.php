@@ -12,7 +12,6 @@ $template->setGuestRequired(true);
 if(isset($_POST['submit'])){
     #Check if email is valid here:
     $email = $_POST['email'];
-    $username = $_POST['username'];
     $PDO = \codebase\Databases\PHPDataObjects::getInstance();
     $STMT = $PDO->prepare('SELECT `id` FROM users WHERE (`email` = :email)');
     $STMT->bindParam(':email', $email, \PDO::PARAM_STR);
@@ -29,9 +28,10 @@ if(isset($_POST['submit'])){
             $token = Helper::generateUID();
             $used = 0;
             $id = $result['id'];
-            $MSG = 'To reset your password you need to use this : '.$token;
-            #send email 
-            ContactManager::sendMail($email, $MSG);
+            $MSG = 'You forgot your password? Here take this token:  '.$token;
+            $MSG.'it will help you reset your password';
+            
+            ContactManager::sendMail($email, $MSG);  
             #add information to database
             $PDO->beginTransaction();
             $STMT = $PDO->prepare('INSERT INTO password_reset values(DEFAULT, :token, :used, :belongsTo, DEFAULT)');

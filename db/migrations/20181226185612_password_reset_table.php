@@ -11,7 +11,6 @@ class PasswordResetTable extends AbstractMigration
 		if($password_reset_table->exists()) $password_reset_table->drop()->save();
 		$password_reset_table->addColumn('uid', 'string', ['limit' => 36])
 							 ->addColumn('used', 'integer', ['limit' => 1])
-							 ->addForeignKey('belongTo', 'users', 'id',['delete'=> 'CASCADE', 'update'=> 'CASCADE'])
 							 ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
 							 ->save();
 			  
