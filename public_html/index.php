@@ -49,8 +49,8 @@ if($isLoggedIn) $user = Account::user();
         <div class="transfer_window">
             <p class="transfer_icon"> <b> Send Files </b></p> <br>
             <form action="" method="POST" enctype="multipart/form-data">
-                <input type="email" name="receiver" placeholder="Email to">
-                <input type="email" name="sender" placeholder="Your email" value="<?php echo $isLoggedIn ? $user->getEmail() : ''; ?>">
+                <input type="email" id="recvEmail" name="receiver" placeholder="Email to">
+                <input type="email" name="sender" placeholder="Your email" value="<?php echo $isLoggedIn ? $user->getEmail() : ''; ?>"> <br><br>
                 <textarea name="message" rows="auto" cols="auto"> Message </textarea> <br>
                 <label> Send as:
                     <input type="radio" checked="checked" name="share_type" value="email">
@@ -68,12 +68,18 @@ if($isLoggedIn) $user = Account::user();
                 </label>
                 <input type="file" name="file" />
                 <br><br>
-                <input type="submit" name="upload" value="Transfer">
-
+                <input type="submit" name="upload" value="Transfer"> <br>
+                <p><strong>Tip:</strong>
+                    For multiple receiver emails press the button 'Enable multiple emails' <u>first</u>. Insert multiple emails in 
+                    email box, seperating them with comma.
+                </p>
 
                 <!-- placeholder "set password" <br>
                 TO DO LATER: dropdown menu "advanced options": "del after", "shorten url", "protect with pass". -->
             </form>
+
+            <button onclick=" return multEmail(); ">Enable Multiple Emails</button>
+            <p id="mulMsg"></p>
         </div>
     </body>
 </html>
