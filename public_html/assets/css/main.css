@@ -43,7 +43,8 @@
     border-radius: 5px;
     margin-left: 10px;
     padding-left: 5px;
-    margin-bottom: 2em;
+    width: 126px;
+    display: inline-block;
 }
 
 /* Style buttons */
@@ -77,4 +78,8 @@ ul.error{
 
 input[readonly]{
     background-color: #EDEDED;
+}
+
+.div_container{
+    display: table;
 }

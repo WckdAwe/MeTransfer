@@ -35,10 +35,12 @@ if($isLoggedIn) $user = Account::user();
         <div class="logo">
             <p class="logo_text"> MeTransfer </p>
         </div>
-        <?php echo $template->getUserMenu(); ?>
-        <div class="transfer_window">
-            <p class="transfer_icon"> <b> <?php echo $title; ?> </b></p> <br>
-            <?php echo $msg; ?>
+        <div class="div_container">
+            <?php echo $template->getUserMenu(); ?>
+            <div class="transfer_window">
+                <p class="transfer_icon"> <b> <?php echo $title; ?> </b></p> <br>
+                <?php echo $msg; ?>
+            </div>
         </div>
     </body>
 </html>
