@@ -28,4 +28,6 @@ class Language
     const ERR_FILE_TYPE = 'Upload failed! Allowed file types: %1$s.';
     const ERR_LOGIN_REQUIRED_ACTION = 'You must be logged in to perform this action!';
     const ERR_NO_PERMISSION = 'You do not have permission to %1$s.';
+    const NOT_VALID_TOKEN = 'Token does not exist';
+    const TOKEN_USED = 'Your token has been used';
 }

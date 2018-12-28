@@ -11,6 +11,7 @@ class User
     private $email;
     private $password;
     private $created_at;
+    private $isAdmin;
 
     public function getId()
     {
@@ -36,8 +37,25 @@ class User
     {
         return $this->created_at;
     }
+    public function getIsAdmin()
+    {
+        return $this->isAdmin;
+    }
+
+    public function isAdmin(){
+        $PDO = \codebase\Databases\PHPDataObjects::getInstance();
+        $STMT = $PDO->prepare('SELECT `username` FROM users WHERE `isAdmin` = :isAdmin AND `id` = :id');
+        $STMT->bindParam(':isAdmin', $this->getIsAdmin(), \PDO::PARAM_INT);
+        $STMT->bindParam(':id', $this->getId(), \PDO::PARAM_INT);
+        $result = $STMT->fetch();
+
+        if( !empty($result) )
+            return true;
+        return false;
 
 
+
+    }
     public function changePassword($old_password, $new_password, $new_password_check){
         if(!password_verify($old_password, $this->getPassword())){
             ErrorManager::addError(Language::ERR_INCORRECT, 'password');
