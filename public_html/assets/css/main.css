@@ -81,5 +81,15 @@ input[readonly]{
 }
 
 .div_container{
-    display: table;
+    display: inline-block;
+}
+
+.div_container_2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#in_block{
+    display: inline-block;
 }
