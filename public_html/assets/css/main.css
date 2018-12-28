@@ -18,7 +18,7 @@
 .transfer_window{
     box-sizing: content-box;
     width: 325px;
-    height: 425px;
+    min-height: 425px;
     margin: auto;
     border: solid white;
     background-color: white;
@@ -62,6 +62,10 @@
     background-color: rgb(18, 54, 163);
 }
 
+.btn[disabled], .btn[disabled]:hover{
+    background-color: darkgray;
+}
+
 /* Center the button */
 .button_pos {
     text-align: center;
@@ -69,4 +73,8 @@
 
 ul.error{
     border: red 2px dashed;
+}
+
+input[readonly]{
+    background-color: #EDEDED;
 }

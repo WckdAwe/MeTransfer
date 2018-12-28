@@ -41,6 +41,13 @@ class FileManager
             return false;
         }
 
+        if(Account::isLoggedIn())
+            $sender_email = Account::user()->getEmail(); // Override sender email if user is logged in.
+
+        if($uploadedFile['error'] == UPLOAD_ERR_NO_FILE){
+            ErrorManager::addError(Language::ERR_MISSING, 'uploaded file');
+            return false;
+        }
         if($uploadedFile['error'] != UPLOAD_ERR_OK){
             ErrorManager::addError(Language::ERR_FATAL, $uploadedFile['error']);
             return false;
@@ -92,33 +99,31 @@ class FileManager
                 if($share_type == self::SHARE_TYPE_EMAIL) {
                     $file_id = $PDO->lastInsertId();
 
-                    // TODO: Find a better way to do this? maybe? Well we already know one but yeah... testing things out. This is not safe btw... just saying
-                    $query = '(:file_id, :email0),';
-                    foreach ($email_addresses as $key => $email)
-                        $query .= '(:file_id, :email'.($key+1).'),';
+                    $email_addresses = array_unique(array_merge($email_addresses, [$sender_email])); // Merge and remove duplicate email addresses
 
-                    $query = substr($query, 0, -1);
+                    // TODO: Find a better way to do this? maybe? Well we already know one but yeah... testing things out. This is not safe btw... just saying
+                    $query = '';
+                    foreach ($email_addresses as $key => $email)
+                        $query .= '(:file_id, :email'.$key.'),';
+
+                    $query = substr($query, 0, -1); // Remove last ','
 
                     $STMT = $PDO->prepare('INSERT INTO file_auth (`file_id`, `email`) values '.$query);
                     $STMT->bindParam(':file_id', $file_id, \PDO::PARAM_INT);
-                    $STMT->bindParam(':email0', $sender_email, \PDO::PARAM_STR);
 
-
-                    var_dump($email_addresses);
                     foreach ($email_addresses as $key => $email)
-                        $STMT->bindValue(':email' . ($key+1), $email, \PDO::PARAM_STR);
+                        $STMT->bindValue(':email' . $key, $email, \PDO::PARAM_STR);
 
                     $STMT->execute();
 
                     $email = new NewTransferOwnerEmail($fileName, '/dl/' . $newFileName . '/'.$sender_email, $included_message);
                     $email->setReceivers($sender_email);
-                    // $email->sendEmail(); TODO: Uncomment these when done. This laggs a lot
+                    // $email->sendEmail(); TODO: Uncomment these when done. This lags a lot
 
                     foreach ($email_addresses as $email_addr){ // TODO: Yeap... We could also improve that... if it was going to be an actual app.
                         $email = new NewTransferEmail($fileName, '/dl/' . $newFileName . '/'.$email_addr, $included_message);
                         $email->setReceivers($email_addr);
-                        // $email->sendEmail(); TODO: Uncomment these when done. This laggs a lot
-
+                        // $email->sendEmail(); TODO: Uncomment these when done. This lags a lot
                     }
                 }
 

@@ -20,6 +20,7 @@ class Language
     const ERR_ITEM_CANT_BE_SAME = '%1$s and %2$s can\'t be the same.';
     const ERR_INCORRECT = '%1$s is incorrect.';
     const ERR_INVALID = '%1$s is invalid.';
+    const ERR_MISSING = '%1$s is missing.';
     const ERR_LENGTH_BETWEEN = '%1$s must be between %2$d and %3$d characters.';
     const ERR_STRING_SPECIFIC = '%1$s must be one of these: %2$s.';
     const ERR_FILE_MAX_SIZE = '%$1s exceeds the maximum file-size of %2$s.';

@@ -35,24 +35,7 @@ if($isLoggedIn) $user = Account::user();
         <div class="logo">
             <p class="logo_text"> MeTransfer </p>
         </div>
-        <div class="login_subscribe_button">
-            <?php if(!$isLoggedIn){
-                echo '<div>
-                              <a href="/account/login"> LOGIN </a>
-                          </div>
-                          <div>
-                              <a href="/account/register"> REGISTER </a>
-                          </div>';
-            }else{
-                echo 'Hello <b>'.$user->getUsername().'</b> <br>';
-                echo '<div>
-                              <a href="/account"> MY PROFILE </a>
-                          </div>
-                          <div>
-                              <a href="/account/logout"> LOGOUT </a>
-                          </div>';
-            }?>
-        </div><br>
+        <?php echo $template->getUserMenu(); ?>
         <div class="transfer_window">
             <p class="transfer_icon"> <b> <?php echo $title; ?> </b></p> <br>
             <?php echo $msg; ?>

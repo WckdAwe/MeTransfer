@@ -13,6 +13,7 @@ class Template {
     protected $PAGE_KEYWORDS = [];
     protected $PAGE_CSS = [];
     protected $PAGE_JS = [];
+    protected $PAGE_HEAD_JS = [];
     protected $login_required = false;
     protected $guest_required = false;
 
@@ -128,6 +129,33 @@ class Template {
         return $LINK . $SCRIPT;
     }
 
+    public function addHeadJS($JS, $isURL = true) {
+        if (is_string($JS) && is_bool($isURL)) {
+            array_push($this->PAGE_HEAD_JS, ['content' => ($isURL ? '<script src="' . $JS . '"></script>' : $JS),
+                'isURL' => $isURL]);
+        }
+        var_dump($this->PAGE_HEAD_JS);
+    }
+
+    public function clearHeadJS() {
+        unset($this->PAGE_HEAD_JS);
+        $this->PAGE_HEAD_JS = [];
+    }
+
+    public function getHeadJS() {
+        $LINK = '';
+        $SCRIPT = '';
+        foreach ($this->PAGE_HEAD_JS as $JS) {
+            if ($JS['isURL'] == false) {
+                $SCRIPT .= $JS['content'];
+            } else {
+                $LINK .= $JS['content'];
+            }
+        }
+        if(!empty($SCRIPT))
+            $SCRIPT = '<script>'.$SCRIPT.'</script>';
+        return $LINK . $SCRIPT;
+    }
 
     public function setLoginRequired($login_required){
         $this->login_required = $login_required;
@@ -165,10 +193,26 @@ class Template {
                     <meta name="description" content="'.$this->getPageDescription().'"> 
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">'
                     .$this->getCSS().
-                    '<link rel="shortcut icon" href="/assets/images/favicon.ico">
-                </head>';
+                    '<link rel="shortcut icon" href="/assets/images/favicon.ico">'
+                    .$this->getHeadJS().
+               '</head>';
     }
 
+    public function getUserMenu() {
+        $result = '<div class="login_subscribe_button">';
+        if(!Account::isLoggedIn()){
+            $result .= '<div><a href="/account/login"> LOGIN </a></div>
+                        <div><a href="/account/register"> REGISTER </a></div>';
+        }else{
+            $result .= 'Hello <b>'.Account::user()->getUsername().'</b> <br>';
+            $result .= '<div><a href="/account"> MY PROFILE </a></div>
+                        <div><a href="/account/my_files"> MY FILES </a></div>
+                        <div><a href="/account/logout"> LOGOUT </a></div>
+                        <div><br><a href="/admin">ADMIN PAGE </a></div>';
+        }
+        $result .= '</div>';
+        return $result;
+    }
     protected function getNavigation(){}
     protected function getFooter(){}
 }

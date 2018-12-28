@@ -5,7 +5,6 @@ namespace codebase\App\Users;
 use codebase\App\ErrorManager;
 use codebase\App\FileManager;
 use codebase\App\Language;
-use codebase\Databases\PHPDataObjects;
 use codebase\Helper;
 
 class UserFile {
@@ -61,13 +60,24 @@ class UserFile {
         return $this->share_type;
     }
 
+    public function getShareTypeAsText()
+    {
+        switch($this->getShareType()){
+            case FileManager::SHARE_TYPE_EMAIL:
+                return 'Email';
+            case FileManager::SHARE_TYPE_LINK:
+                return 'Link';
+        }
+    }
+
     public function getPassword()
     {
         return $this->password;
     }
 
     public function getUrl(){
-        return '/dl/'.$this->getUid();
+        $default_url = '/dl/'.$this->getUid();
+        return $default_url;
     }
 
     public function getLocalPath(){
@@ -76,6 +86,11 @@ class UserFile {
 
     public function hasExpired(){
         return strtotime($this->getDeleteAt()) - time() < 0 ? true : false;
+    }
+
+    public function hasPassword() : bool
+    {
+        return $this->getPassword() ? true : false;
     }
 
     public function delete()

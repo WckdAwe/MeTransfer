@@ -42,16 +42,26 @@ $files = $user->files();
                             <th>Active?</th>
                             <th>Expiration Date</th>
                             <th>Access</th>
+                            <th>Password Prot.</th>
                             <th>Actions</th>
                         </tr>
                         <?php
                             foreach ($files as $file){
                                 if($file instanceof UserFile) {
+                                    $shareTypeHTML = $file->getShareTypeAsText();
+                                    if($file->getShareType() == FileManager::SHARE_TYPE_EMAIL){
+                                        $shareTypeHTML .= ' Access:<br><ul>';
+                                        foreach ($file->getAccessEmails() as $accessEmail) {
+                                            $shareTypeHTML .= '<ol>'.$accessEmail.'</ol>';
+                                        }
+                                        $shareTypeHTML .= '</ul>';
+                                    }
                                     echo '<tr><th>' . $file->getId() . '</th>' .
                                         '<th>' . $file->getFileName() . '</th>' .
                                         '<th>' . ($file->hasExpired() ? 'No' : 'Yes') . '</th>' .
                                         '<th>' . $file->getDeleteAt() . '</th>' .
-                                        '<th>' . $file->getShareType() . '</th>';
+                                        '<th>' . $shareTypeHTML  . '</th>' .
+                                        '<th>' . ($file->getPassword() ? 'Yes' : 'No') . '</th>';
                                     if($file->hasExpired()){
                                         echo '<th>¯\_(ツ)_/¯</th>';
                                     }else{
