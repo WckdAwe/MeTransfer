@@ -8,6 +8,7 @@
     border-radius: 5px;
     margin-left: 10px;
     text-indent: 5px;
+    display: block;
 }
 
 .logo_text{
@@ -17,10 +18,68 @@
 .transfer_window{
     box-sizing: content-box;
     width: 325px;
-    height: 425px;
+    min-height: 425px;
     margin: auto;
     border: solid white;
     background-color: white;
     border-radius: 10px;
     text-align: center;
+}
+
+.transfer_icon{
+    margin-left: 35%;
+    margin-right: 35%;
+    text-align: center;
+    padding-left: 2px;
+    padding-right: 3px;
+    border-left: solid black;
+    border-right: solid black;
+    border-radius: 2px;
+}
+
+.login_subscribe_button{
+    color: purple;
+    border-left: 6px solid purple;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding-left: 5px;
+    width: 126px;
+    display: inline-block;
+}
+
+/* Style buttons */
+.btn {
+    background-color: rgb(22, 106, 190);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+    position: relative;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: rgb(18, 54, 163);
+}
+
+.btn[disabled], .btn[disabled]:hover{
+    background-color: darkgray;
+}
+
+/* Center the button */
+.button_pos {
+    text-align: center;
+}
+
+ul.error{
+    border: red 2px dashed;
+}
+
+input[readonly]{
+    background-color: #EDEDED;
+}
+
+.div_container{
+    display: table;
 }

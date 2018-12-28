@@ -1,10 +1,20 @@
 ### CUSTOM ###
 
 my_site/*
+sessions/*
+!sessions/\.gitignore
+uploads/*
+!uploads/\.gitignore
 
+private_html/config\.ini
 
 ### END CUSTOM ###
 
+### Composer ###
+composer.phar
+/vendor/
+phinx.yml
+################
 
 # Created by https://www.gitignore.io/api/phpstorm+all,jetbrains+all
 # Edit at https://www.gitignore.io/?templates=phpstorm+all,jetbrains+all

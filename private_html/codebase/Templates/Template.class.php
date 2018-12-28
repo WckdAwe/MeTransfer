@@ -2,19 +2,27 @@
 
 namespace codebase\Templates;
 
+use codebase\App\Users\Account;
+use codebase\Helper;
+
 class Template {
 
     protected $PAGE_NAME = 'Untitled';
     protected $PAGE_TITLE = 'Untitled';
     protected $PAGE_DESCRIPTION = 'Example Description';
-    protected $PAGE_KEYWORDS = array('Vasil7112');
-    protected $PAGE_CSS = array();
-    protected $PAGE_JS = array();
-    protected $requireLogin = false;
+    protected $PAGE_KEYWORDS = [];
+    protected $PAGE_CSS = [];
+    protected $PAGE_JS = [];
+    protected $PAGE_HEAD_JS = [];
+    protected $login_required = false;
+    protected $guest_required = false;
 
     public function __construct() {
-        $this->setPageName(\main\config::WEBSITE_NAME);
-        $this->setPageDescription(\main\config::WEBSITE_DESCRIPTION);
+        $this->setPageName(__ENV['website_name']);
+        $this->setPageDescription(__ENV['website_desc']);
+
+        $this->checkLoginRequired();
+        $this->checkGuestRequired();
     }
 
     public function setPageName($PAGE_NAME) {
@@ -59,27 +67,29 @@ class Template {
         return implode(', ', $this->PAGE_KEYWORDS);
     }
 
-    public function setBodyClass($body_class) {
-        $this->PAGE_BODY_CLASS = $body_class;
-    }
-
-    public function getBodyClass() {
-        return $this->PAGE_BODY_CLASS;
-    }
+//    public function setBodyClass($body_class) {
+//        $this->PAGE_BODY_CLASS = $body_class;
+//    }
+//
+//    public function getBodyClass() {
+//        return $this->PAGE_BODY_CLASS;
+//    }
 
     public function addCSS($CSS, $isURL = true) {
         if (is_string($CSS) && is_bool($isURL)) {
-            array_push($this->PAGE_CSS, array('content' => ($isURL ? '<link href="' . $CSS . '" rel="stylesheet">' : $CSS), 'isURL' => $isURL));
+            array_push($this->PAGE_CSS, ['content' => ($isURL ? '<link href="' . $CSS . '" rel="stylesheet">' : $CSS),
+                                                'isURL' => $isURL]);
         }
     }
 
     public function clearCSS() {
-        $this->PAGE_CSS = array();
+        unset($this->PAGE_CSS);
+        $this->PAGE_CSS = [];
     }
 
     public function getCSS() {
         $LINK = '';
-        $STYLE = '<style>';
+        $STYLE = '';
         foreach ($this->PAGE_CSS as $CSS) {
             if ($CSS['isURL'] == false) {
                 $STYLE .= $CSS['content'];
@@ -87,23 +97,26 @@ class Template {
                 $LINK .= $CSS['content'];
             }
         }
-        $END_STYLE = ($STYLE != '<style>' ? $STYLE . '</style>' : '');
-        return $LINK . $END_STYLE;
+        if(!empty($STYLE))
+            $STYLE = '<style>'.$STYLE.'</style>';
+        return $LINK . $STYLE;
     }
 
     public function addJS($JS, $isURL = true) {
         if (is_string($JS) && is_bool($isURL)) {
-            array_push($this->PAGE_JS, array('content' => ($isURL ? '<script src="' . $JS . '"></script>' : $JS), 'isURL' => $isURL));
+            array_push($this->PAGE_JS, ['content' => ($isURL ? '<script src="' . $JS . '"></script>' : $JS),
+                                               'isURL' => $isURL]);
         }
     }
 
     public function clearJS() {
-        $this->PAGE_KS = array();
+        unset($this->PAGE_JS);
+        $this->PAGE_JS = [];
     }
 
     public function getJS() {
         $LINK = '';
-        $SCRIPT = '<script>';
+        $SCRIPT = '';
         foreach ($this->PAGE_JS as $JS) {
             if ($JS['isURL'] == false) {
                 $SCRIPT .= $JS['content'];
@@ -111,27 +124,95 @@ class Template {
                 $LINK .= $JS['content'];
             }
         }
-        $END_SCRIPT = ($SCRIPT != '<script>' ? $SCRIPT . '</script>' : '');
-        return $LINK . $END_SCRIPT;
+        if(!empty($SCRIPT))
+            $SCRIPT = '<script>'.$SCRIPT.'</script>';
+        return $LINK . $SCRIPT;
     }
 
-    /**
-      public function setRequireLogin($Boolean){
-      if(is_bool($Boolean)){
-      $this->requireLogin = $Boolean;
-      if($Boolean == true && !\codebase\Authentication\Account::isLoggedIn()){
-      header('Location: /account/login');
-      die();
-      }
-      }
-      }* */
+    public function addHeadJS($JS, $isURL = true) {
+        if (is_string($JS) && is_bool($isURL)) {
+            array_push($this->PAGE_HEAD_JS, ['content' => ($isURL ? '<script src="' . $JS . '"></script>' : $JS),
+                'isURL' => $isURL]);
+        }
+        var_dump($this->PAGE_HEAD_JS);
+    }
+
+    public function clearHeadJS() {
+        unset($this->PAGE_HEAD_JS);
+        $this->PAGE_HEAD_JS = [];
+    }
+
+    public function getHeadJS() {
+        $LINK = '';
+        $SCRIPT = '';
+        foreach ($this->PAGE_HEAD_JS as $JS) {
+            if ($JS['isURL'] == false) {
+                $SCRIPT .= $JS['content'];
+            } else {
+                $LINK .= $JS['content'];
+            }
+        }
+        if(!empty($SCRIPT))
+            $SCRIPT = '<script>'.$SCRIPT.'</script>';
+        return $LINK . $SCRIPT;
+    }
+
+    public function setLoginRequired($login_required){
+        $this->login_required = $login_required;
+        $this->checkLoginRequired();
+    }
+
+    public function setGuestRequired($guest_required){
+        $this->guest_required = $guest_required;
+        $this->checkGuestRequired();
+    }
+
+    public function checkLoginRequired(){
+        if($this->login_required && !Account::isLoggedIn()){
+            Helper::redirect('/account/login');
+        }
+    }
+
+    public function checkGuestRequired(){
+        if($this->guest_required && Account::isLoggedIn()){
+            Helper::redirect('/account/');
+        }
+    }
+
     protected function isCurPageURL($page) {
         if (strtolower($this->getPageTitle()) === strtolower($page)) {
             return 'class="active"';
         }
     }
 
-    protected function getHead() {}
+    public function getHead() {
+        return '<head>
+                    <meta charset=utf-8> 
+                    <title>'.$this->getPageName().($this->getPageTitle() != null ?  ' &bull; '.$this->getPageTitle() : '').'</title>
+                    <meta name="keywords" content="'.$this->getKeywords().'">
+                    <meta name="description" content="'.$this->getPageDescription().'"> 
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">'
+                    .$this->getCSS().
+                    '<link rel="shortcut icon" href="/assets/images/favicon.ico">'
+                    .$this->getHeadJS().
+               '</head>';
+    }
+
+    public function getUserMenu() {
+        $result = '<div class="login_subscribe_button">';
+        if(!Account::isLoggedIn()){
+            $result .= '<div><a href="/account/login"> LOGIN </a></div>
+                        <div><a href="/account/register"> REGISTER </a></div>';
+        }else{
+            $result .= 'Hello <b>'.Account::user()->getUsername().'</b> <br>';
+            $result .= '<div><a href="/account"> MY PROFILE </a></div>
+                        <div><a href="/account/my_files"> MY FILES </a></div>
+                        <div><a href="/account/logout"> LOGOUT </a></div>
+                        <div><br><a href="/admin">ADMIN PAGE </a></div>';
+        }
+        $result .= '</div>';
+        return $result;
+    }
     protected function getNavigation(){}
     protected function getFooter(){}
 }

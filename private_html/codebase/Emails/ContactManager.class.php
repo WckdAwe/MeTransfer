@@ -11,32 +11,31 @@ class ContactManager{
             if(!empty($msg)){
                 if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     if(strlen($msg) >= 100 && strlen($msg) <= 4000){
-                        if(\codebase\Captcha\NoCaptcha::verifyCaptcha()) {
-                            $EmailManager = new \codebase\Emails\Email();
-                            $EmailManager->setReciever('admin@vasil7112.com');
-                            $EmailManager->setSubject('New message by : '. $email);
-                            $EmailManager->setContents('<html>
-                                                                    <head>
-                                                                        <style>
-                                                                            body{
-                                                                                margin: 0;
-                                                                                padding: 0;
-                                                                            }
-                                                                            .ecnav{
-                                                                                background-color: #0B0B0B;
-                                                                            }
-                                                                            .ecnav>img{
-                                                                                padding: 10px;
-                                                                            }
-                                                                            .mailbody{
-                                                                                background-color: #EDEDED;
-                                                                                padding: 10px;
-                                                                            }
-                                                                            .nomargin{
-                                                                                margin: 0px 1px 0 !important;
-                                                                            }
-                                                                        </style>
-                                                                    </head>
+                        $EmailManager = new \codebase\Emails\Email();
+                        $EmailManager->setReciever('admin@vasil7112.com');
+                        $EmailManager->setSubject('New message by : '. $email);
+                        $EmailManager->setContents('<html>
+                                                            <head>
+                                                                <style>
+                                                                    body{
+                                                                        margin: 0;
+                                                                        padding: 0;
+                                                                    }
+                                                                    .ecnav{
+                                                                        background-color: #0B0B0B;
+                                                                    }
+                                                                        .ecnav>img{
+                                                                        padding: 10px;
+                                                                    }
+                                                                    .mailbody{
+                                                                        background-color: #EDEDED;
+                                                                        padding: 10px;
+                                                                    }
+                                                                    .nomargin{
+                                                                        margin: 0px 1px 0 !important;
+                                                                    }
+                                                                </style>
+                                                            </head>
                                                                     <body>
                                                                         <div class="ecnav">
                                                                             <img src="http://vasil7112.com/assets/images/logo.png" alt=""/>
@@ -47,12 +46,8 @@ class ContactManager{
                                                                             <p class="nomargin">' . htmlspecialchars($msg) . '</p>
                                                                         </div>
                                                                     </body>
-                                                                </html>');
-                            $EmailManager->sendEmail();
-                            return true;
-                        }else{
-                            //$this->ErrorManager->addMessage('Incorrect Captcha');
-                        }
+                                                    </html>');
+                        $EmailManager->sendEmail();     
                     }else{
                         //$this->ErrorManager->addMessage('Message size must be between 100-4000 Charachters');
                     }
