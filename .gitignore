@@ -11,7 +11,7 @@ private_html/config\.ini
 ### END CUSTOM ###
 
 ### Composer ###
-composer.phar
+#composer.phar
 /vendor/
 phinx.yml
 ################
