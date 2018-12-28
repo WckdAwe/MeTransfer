@@ -18,6 +18,8 @@ class CreateFileAuthTable extends AbstractMigration
 
     public function down()
     {
-        $this->table('file_auth')->drop()->save();
+        $this->table('file_auth')
+              ->dropForeignKey('file_id')
+              ->drop()->save();
     }
 }

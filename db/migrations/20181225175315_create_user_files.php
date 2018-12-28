@@ -23,6 +23,8 @@ class CreateUserFiles extends AbstractMigration
     }
 
     public function down(){
-        $this->table('user_files')->drop()->save();
+        $table = $this->table('user_files');
+        $table->dropForeignKey('belongs_to')
+              ->drop()->save();
     }
 }
