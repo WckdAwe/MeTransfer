@@ -80,7 +80,8 @@ class UserFile {
         return $default_url;
     }
 
-    public function getLocalPath(){
+    public function getLocalPath() : string
+    {
         return FileManager::UPLOAD_DIR.$this->getUid().'.'.$this->getFileExt();
     }
 
@@ -101,7 +102,7 @@ class UserFile {
         }
 
         $user = Account::user();
-        if ($user->getId() != $this->getBelongsTo()) { // TODO: OR IS ADMINISTRATOR
+        if ($user->getId() != $this->getBelongsTo() && !$user->isAdmin()) {
             ErrorManager::addError(Language::ERR_NO_PERMISSION, 'remove this file');
             return false;
         }
@@ -127,5 +128,23 @@ class UserFile {
         $result = [];
         foreach ($db_result as $db_item) array_push($result, $db_item['email']);
         return $result;
+    }
+
+    /**
+     * Get the owner's username.
+     * Avoid using this method often because of multiple Select statements... (N+1 problem).
+     * We could solve this with SQL Joins & Lazy Fetching... but.. yeah... This is just a
+     * 'WWW Technologies' University Project.
+     * @return username
+     */
+
+    public function getOwnerUsername(){
+        $PDO = \codebase\Databases\PHPDataObjects::getInstance();
+        $STMT = $PDO->prepare('SELECT `username` FROM users WHERE (`id` = :user_id)');
+        $STMT->bindParam(':user_id',$this->belongs_to, \PDO::PARAM_INT);
+        $STMT->execute();
+
+        $result = $STMT->fetch();
+        return $result['username'];
     }
 }

@@ -16,6 +16,7 @@ class Template {
     protected $PAGE_HEAD_JS = [];
     protected $login_required = false;
     protected $guest_required = false;
+    protected $admin_required = false;
 
     public function __construct() {
         $this->setPageName(__ENV['website_name']);
@@ -157,6 +158,11 @@ class Template {
         return $LINK . $SCRIPT;
     }
 
+    public function setAdminRequired($admin_required){
+        $this->admin_required = $admin_required;
+        $this->checkAdminRequired();
+    }
+
     public function setLoginRequired($login_required){
         $this->login_required = $login_required;
         $this->checkLoginRequired();
@@ -165,6 +171,14 @@ class Template {
     public function setGuestRequired($guest_required){
         $this->guest_required = $guest_required;
         $this->checkGuestRequired();
+    }
+
+    public function checkAdminRequired(){
+        if($this->admin_required && (!Account::isLoggedIn() ||
+                                     (Account::isLoggedIn() && !Account::user()->isAdmin())
+                                    )){
+            Helper::redirect('/account/');
+        }
     }
 
     public function checkLoginRequired(){
@@ -193,7 +207,23 @@ class Template {
                     <meta name="description" content="'.$this->getPageDescription().'"> 
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">'
                     .$this->getCSS().
-                    '<link rel="shortcut icon" href="/assets/images/favicon.ico">'
+                    '<link rel="apple-touch-icon" sizes="57x57" href="/assets/favicons/apple-icon-57x57.png">
+                     <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicons/apple-icon-60x60.png">
+                     <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicons/apple-icon-72x72.png">
+                     <link rel="apple-touch-icon" sizes="76x76" href="/assets/favicons/apple-icon-76x76.png">
+                     <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicons/apple-icon-114x114.png">
+                     <link rel="apple-touch-icon" sizes="120x120" href="/assets/favicons/apple-icon-120x120.png">
+                     <link rel="apple-touch-icon" sizes="144x144" href="/assets/favicons/apple-icon-144x144.png">
+                     <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicons/apple-icon-152x152.png">
+                     <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicons/apple-icon-180x180.png">
+                     <link rel="icon" type="image/png" sizes="192x192"  href="/assets/favicons/android-icon-192x192.png">
+                     <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png">
+                     <link rel="icon" type="image/png" sizes="96x96" href="/assets/favicons/favicon-96x96.png">
+                     <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicons/favicon-16x16.png">
+                     <link rel="manifest" href="/assets/favicons/manifest.json">
+                     <meta name="msapplication-TileColor" content="#ffffff">
+                     <meta name="msapplication-TileImage" content="/assets/favicons/ms-icon-144x144.png">
+                     <meta name="theme-color" content="#ffffff">'
                     .$this->getHeadJS().
                '</head>';
     }
@@ -207,11 +237,14 @@ class Template {
             $result .= '<div><a href="/account/login"> LOGIN </a></div>
                         <div><a href="/account/register"> REGISTER </a></div>';
         }else{
+            $user = Account::user();
             $result .= 'Hello <b>'.Account::user()->getUsername().'</b> <br>';
             $result .= '<div><a href="/account"> MY PROFILE </a></div>
                         <div><a href="/account/my_files"> MY FILES </a></div>
-                        <div><a href="/account/logout"> LOGOUT </a></div>
-                        <div><br><a href="/admin">ADMIN PAGE </a></div>';
+                        <div><a href="/account/logout"> LOGOUT </a></div>';
+            if($user->isAdmin()){
+                $result .= '<div><br><a href="/admin">ADMIN PAGE </a></div>';
+            }
         }
         $result .= '</div>';
         return $result;

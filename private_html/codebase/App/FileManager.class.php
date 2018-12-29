@@ -56,7 +56,6 @@ class FileManager
         $fileTmpPath = $uploadedFile['tmp_name'];
         $fileName = $uploadedFile['name'];
         $fileSize = $uploadedFile['size'];
-        // $fileType = $uploadedFile['type']; TODO: Implement file type in DB?
         $fileNameCmps = explode('.', $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
 
@@ -95,7 +94,6 @@ class FileManager
                 $STMT->execute();
 
 
-                // TODO: Test dis
                 if($share_type == self::SHARE_TYPE_EMAIL) {
                     $file_id = $PDO->lastInsertId();
 
@@ -166,4 +164,14 @@ class FileManager
         $result = $STMT->fetch(\PDO::FETCH_CLASS);
         return $result ? $result : null;
     }
+
+    public static function getAllFiles()
+    {
+        $PDO = \codebase\Databases\PHPDataObjects::getInstance();
+        $STMT = $PDO->prepare('SELECT * FROM user_files ORDER BY `id` DESC');
+        $STMT->execute();
+        $STMT->setFetchMode(\PDO::FETCH_CLASS, __NAMESPACE__ . '\\Users\\UserFile');
+        return $STMT->fetchAll(\PDO::FETCH_CLASS, __NAMESPACE__ . '\\Users\\UserFile');
+    }
+
 }

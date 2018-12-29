@@ -6,6 +6,9 @@ define('__ENV', __CONFIG['env']);
 define('__DBCONF', __CONFIG['database']);
 define('__EMAILS', __CONFIG['emails']);
 
+//define('TIMEZONE', 'America/New_York');
+//date_default_timezone_set(TIMEZONE);
+
 /** PACKAGE MANAGER **/
 define('ROOT', dirname(__DIR__));
 

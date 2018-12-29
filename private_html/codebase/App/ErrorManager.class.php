@@ -22,7 +22,6 @@ class ErrorManager
 
     public static function addError(string $error)
     {
-        // TODO: Setup parameters
         $error = ucfirst(call_user_func_array("sprintf", func_get_args()));
         array_push(self::$errors, $error);
     }

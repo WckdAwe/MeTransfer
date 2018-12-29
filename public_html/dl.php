@@ -19,7 +19,7 @@ if($file->hasExpired()){
 $isLoggedIn = Account::isLoggedIn();
 if($isLoggedIn) $user = Account::user();
 
-if($isLoggedIn && ($file->getBelongsTo() == $user->getId())){ // TODO: Or isAdmin();
+if($isLoggedIn && ($file->getBelongsTo() == $user->getId())){ // TODO: Or isAdmin() (But loyalty?);
     // continue normally;
 }else if($file->getShareType() == FileManager::SHARE_TYPE_EMAIL){
     $access_emails = $file->getAccessEmails();
