@@ -27,7 +27,7 @@ class StyledEmail extends Email {
                             </head>
                             <body>
                                 <div class="ecnav">
-                                    <img src="https://prod-cdn.wetransfer.net/assets/wt-facebook-568be8def5a86a09cedeb21b8f24cb208e86515a552bd07d856c7d5dfc6a23df.png" alt=""/>
+                                    <img src="http://'.__ENV['website_url'].'/assets/img/MeTransferLogoFull.png" alt="" width="250" height="38"/>
                                 </div>
                                 <div class="mailbody">
                                     '.$contents.'
