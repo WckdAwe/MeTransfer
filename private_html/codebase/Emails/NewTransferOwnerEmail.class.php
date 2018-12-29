@@ -6,7 +6,7 @@ class NewTransferOwnerEmail extends StyledEmail {
     {
         $transferName = htmlentities($transferName);
         $this->transferUrl = $transferUrl;
-        $transfer_msg = empty($transfer_msg) ? '' : '<p class="nomargin>The following message was included: '.htmlentities($transfer_msg).'</p>';
+        $transfer_msg = empty($transfer_msg) ? '' : '<p class="nomargin">The following message was included: '.htmlentities($transfer_msg).'</p>';
         $this->setSubject('You\'ve sent a Transfer: '. $transferName);
         parent::setContents('<h2 class="nomargin">Hello there, </h2>
                                      <p class="nomargin">Your Transfer called \''.$transferName.'\' has been delivered!</p>

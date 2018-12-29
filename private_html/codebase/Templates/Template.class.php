@@ -199,7 +199,10 @@ class Template {
     }
 
     public function getUserMenu() {
-        $result = '<div class="login_subscribe_button">';
+        $result = '<div class="logo">
+                    <p class="logo_text"><a href="/"> MeTransfer </a></p>
+                   </div>
+                   <div class="login_subscribe_button">';
         if(!Account::isLoggedIn()){
             $result .= '<div><a href="/account/login"> LOGIN </a></div>
                         <div><a href="/account/register"> REGISTER </a></div>';

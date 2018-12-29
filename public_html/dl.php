@@ -58,9 +58,6 @@ if(isset($_POST['download'])){
 <html lang="en">
     <?php echo $template->getHead(); ?>
     <body class="grad">
-        <div class="logo">
-            <p class="logo_text"><a href="/"> MeTransfer </a></p>
-        </div>
         <?php echo $template->getUserMenu(); ?>
         <br>
         <div class="transfer_window">
