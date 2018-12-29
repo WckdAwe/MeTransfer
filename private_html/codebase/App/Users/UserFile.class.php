@@ -115,7 +115,7 @@ class UserFile {
         $PDO->commit();
 
         unlink($this->getLocalPath());
-        Helper::redirect('/account/my_files');
+        return true;
     }
 
     public function getAccessEmails(){

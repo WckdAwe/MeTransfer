@@ -12,7 +12,7 @@ $template->setLoginRequired(true);
 if(isset($_GET['action']) && isset($_GET['id'])){
     if($_GET['action']=='del'){
         $file = FileManager::getFileById($_GET['id']);
-        if($file) $file->delete();
+        if($file && $file->delete()) \codebase\Helper::redirect('/account/my_files');
     }
 }
 

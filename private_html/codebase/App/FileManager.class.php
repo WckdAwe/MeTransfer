@@ -36,9 +36,11 @@ class FileManager
 
         }
 
-        if (!filter_var($sender_email, FILTER_VALIDATE_EMAIL)) {
-            ErrorManager::addError(Language::ERR_INVALID, 'The sender\'s email');
-            return false;
+        if((self::SHARE_TYPE_LINK && !empty($sender_email)) || self::SHARE_TYPE_EMAIL) {
+            if (!filter_var($sender_email, FILTER_VALIDATE_EMAIL)) {
+                ErrorManager::addError(Language::ERR_INVALID, 'The sender\'s email');
+                return false;
+            }
         }
 
         if(Account::isLoggedIn())
