@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){
                     </div>
                     <div>
                         <p>Had a brief moment of enlightenment and changed your mind?</p>
-                        <p><a href="/account/login">Login</a> to my account</p>
+                        <p><a href="login">Login</a> to my account</p>
                     </div>
                 </form>
             </div>

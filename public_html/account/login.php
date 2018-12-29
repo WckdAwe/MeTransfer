@@ -40,7 +40,7 @@ if(isset($_POST['submit']))
                     </div>
                     <div>
                         <p>If you don't have an account click here: <a href="register">Register</a></p>
-                        <p><a href="reset_password_email">Forgot your password?</a></p>
+                        <p><a href="password_reset">Forgot your password?</a></p>
                     </div>
                 </form>
             </div>

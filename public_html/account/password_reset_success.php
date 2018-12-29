@@ -30,7 +30,7 @@ if(isset($_POST['submit'])){
                         <input type="hidden" name="token" value="<?php if(isset($_GET['token'])) echo $_GET['token']; ?>" required>
                     <?php else: ?>
                         <div>
-                            <div>Token:</div>
+                            <div>Token (Check your email):</div>
                             <input type="textarea" name="token" required>
                         </div>
                     <?php endif; ?>
