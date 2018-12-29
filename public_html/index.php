@@ -25,12 +25,7 @@ $senderHTML = $isLoggedIn ? 'value="'.$user->getEmail().'" readonly' : 'value="'
     <?php echo $template->getHead(); ?>
 
     <body class="grad">
-        <div class="div_container">
-            <div class="logo">
-                <p class="logo_text"><a href="/"> MeTransfer </a></p>
-            </div>
-            <?php echo $template->getUserMenu(); ?>
-        </div>
+        <?php echo $template->getUserMenu(); ?>
         <div class="div_container_2">
             <div id="in_block">
                 <div class="transfer_window">
