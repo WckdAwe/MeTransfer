@@ -8,6 +8,7 @@ class Email {
 
     public function sendEmail($send_type = self::SEND_TYPE_MULTI){
         if(empty($this->getReceivers())) return;
+        if(__ENV['environment'] != 'production') return;
         if($send_type == self::SEND_TYPE_MULTI){
             if(!mail(implode(',', $this->getReceivers()), $this->getSubject(), $this->getContents(), $this->getHeaders()))
                 throw new \MailException(\MailException::TYPE_GENERIC);
