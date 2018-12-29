@@ -71,7 +71,8 @@ $files = FileManager::getAllFiles();
                                     if($file->hasExpired()){
                                         echo '<th>¯\_(ツ)_/¯</th>';
                                     }else{
-                                        echo '<th><a href="'.$file->getUrl().'">GO</a> || <a href="?action=del&id='.$file->getId().'">Delete</a></th>';
+                                        $goURL = ($file->getShareType() != FileManager::SHARE_TYPE_LINK && $file->getBelongsTo() != $user->getId() && !in_array($user->getEmail(), $file->getAccessEmails())) ? 'GO' : '<a href="'.$file->getUrl().'">GO</a>';
+                                        echo '<th>'.$goURL.' || <a href="?action=del&id='.$file->getId().'">Delete</a></th>';
                                     }
                                     echo '</tr>';
                                 }
