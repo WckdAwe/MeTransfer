@@ -118,12 +118,12 @@ class FileManager
 
                     $email = new NewTransferOwnerEmail($fileName, '/dl/' . $newFileName . '/'.$sender_email, $included_message);
                     $email->setReceivers($sender_email);
-                    $email->sendEmail(); TODO: Uncomment these when done. This lags a lot
+                    $email->sendEmail(); // TODO: Uncomment these when done. This lags a lot
 
                     foreach ($email_addresses as $email_addr){ // TODO: Yeap... We could also improve that... if it was going to be an actual app.
                         $email = new NewTransferEmail($fileName, '/dl/' . $newFileName . '/'.$email_addr, $included_message);
                         $email->setReceivers($email_addr);
-                        $email->sendEmail(); TODO: Uncomment these when done. This lags a lot
+                        $email->sendEmail(); // TODO: Uncomment these when done. This lags a lot
                     }
                 }
 
