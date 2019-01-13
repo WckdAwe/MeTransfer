@@ -33,8 +33,9 @@ if($isLoggedIn) $user = Account::user();
     <?php echo $template->getHead(); ?>
     <body class="grad">
         <?php echo $template->getUserMenu(); ?>
-        <div class="div_container">
-            <div class="transfer_window">
+        <div class="div_container_2">
+            <div id="in_block">
+                <div class="transfer_window">
                 <p class="transfer_icon"> <b> <?php echo $title; ?> </b></p> <br>
                 <?php echo $msg; ?>
             </div>
