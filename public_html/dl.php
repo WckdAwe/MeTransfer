@@ -23,7 +23,7 @@ if($isLoggedIn && ($file->getBelongsTo() == $user->getId())){ // TODO: Or isAdmi
     // continue normally;
 }else if($file->getShareType() == FileManager::SHARE_TYPE_EMAIL){
     $access_emails = $file->getAccessEmails();
-    if($isLoggedIn && !in_array($user->getEmail(), $access_emails)){
+    if($isLoggedIn && in_array($user->getEmail(), $access_emails)){
     }else if(!isset($_GET['email']) || !in_array($_GET['email'], $access_emails)){
         Helper::redirect('/');
     }
