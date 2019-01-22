@@ -2,7 +2,7 @@
 namespace codebase\Emails;
 class NewTransferEmail extends StyledEmail {
     private $transferUrl;
-    public function __construct($transferName, $transferUrl)
+    public function __construct($transferName, $transferUrl, $transfer_msg=null)
     {
         $transferName = htmlentities($transferName);
         $this->transferUrl = $transferUrl;
