@@ -7,7 +7,7 @@
 
 <br />
 <p align="center">
-  <img src="wetransfer_logo.jpg" alt="Logo" width="100" height="100">
+  <img src="metransfer_logo.jpg" alt="Logo" width="100" height="100">
 
   <h1 align="center" style="margin-top:-40px;">MeTransfer*</h3>
 
@@ -42,7 +42,7 @@
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
-
+![MeTransfer](metransfer_page.png)
 This WeTransfer clone was created as part of an assignment for the University subject **WWW Technologies** on the 4th Semester of [CS Dept., University of Thessaly][CSUTH].
 
 It is free to use under GNU-GPLv3 license and anyone wanting to can experiment and improve upon our implementation.
